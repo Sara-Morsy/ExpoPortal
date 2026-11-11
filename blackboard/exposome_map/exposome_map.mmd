@@ -1,0 +1,292 @@
+flowchart LR
+  subgraph cls_Source["source"]
+    source_anthropogenic["anthropogenic"]
+    source_biogenic["biogenic"]
+    source_tires["tires"]
+  end
+  subgraph cls_Emission["emission"]
+    emission_non_exhaust["non-exhaust emissions"]
+    emission_tire_road_wear["tire-road wear emissions"]
+  end
+  subgraph cls_Stressor["chemical / stressor"]
+    chem_6ppd["6PPD"]
+    chem_6ppd_quinone["6PPD-Q"]
+    chem_alpha_pinene["α-pinene"]
+    chem_hydroxyl_radical["•OH"]
+    chem_ozone["ozone"]
+    particle_micro_nanoplastics["micro-nanoplastics"]
+    particle_trwp["TRWPs"]
+  end
+  subgraph cls_ChemicalRole["chemical role"]
+    role_antioxidant["anti-oxidant"]
+    role_plasticizer["plasticizer"]
+  end
+  subgraph cls_TransformationProcess["transformation process"]
+    proc_heterogeneous_oxidation["heterogeneous oxidation"]
+    proc_ozonolysis["ozonolysis"]
+  end
+  subgraph cls_ExposureRoute["exposure route"]
+    route_inhalation["inhalation"]
+  end
+  subgraph cls_Organ["organ"]
+    organ_lung["lung"]
+  end
+  subgraph cls_Receptor["receptor organism / population group"]
+    pop_female_20["female, 20 yrs"]
+    pop_male_60["male, 60 yrs"]
+    receptor_coho_salmon["coho salmon"]
+  end
+  subgraph cls_Modifier["modifier"]
+    mod_age["age"]
+    mod_genes["genes"]
+    mod_sex_gender["gender"]
+    mod_smoking_history["smoking history"]
+  end
+  subgraph cls_OmicsMethod["omics method"]
+    omics_adductomics["adductomics"]
+    omics_genomics["genome"]
+    omics_lipidomics["lipidomics"]
+    omics_metabolomics["metabolomics"]
+    omics_proteomics["proteomics"]
+  end
+  subgraph cls_AnalyticalMethod["analytical method"]
+    method_hrms_nontargeted["non-targeted HRMS"]
+    method_hrms_targeted["targeted HRMS"]
+  end
+  subgraph cls_Matrix["biomonitoring matrix"]
+    matrix_blood["blood"]
+    matrix_hair["hair"]
+    matrix_milk["milk"]
+    matrix_saliva["saliva"]
+    matrix_urine["urine"]
+  end
+  subgraph cls_ExposomeAssessment["exposome assessment"]
+    assess_biomonitoring["biomonitoring"]
+    assess_external_exposome["external exposome"]
+    assess_internal_exposome["internal exposome"]
+  end
+  subgraph cls_SamplingMethod["sampling method"]
+    mode_active_sampling["active sampling"]
+    mode_passive_sampling["passive sampling"]
+    sampler_individual["individual samplers"]
+    sampler_wearable_silicone["wearable silicone samplers"]
+  end
+  subgraph group_biological_response["biological response"]
+    ao_asthma["asthma"]
+    ao_fibrosis["fibrosis"]
+    ke_allergic_response["allergy"]
+    ke_catalase["catalase"]
+    ke_emt["epithelial-mesenchymal transition"]
+    ke_eosinophils["eosinophils"]
+    ke_erk_dependent["ERK-dependent"]
+    ke_erk_independent["ERK-independent"]
+    ke_inflammation["inflammation"]
+    ke_macrophages["macrophages"]
+    ke_nfkb["NF-κB"]
+    ke_ros_pathway["ROS pathway"]
+    ke_signalling_pathways["signalling pathways"]
+    ke_unjamming_transition["unjamming transition"]
+  end
+
+  assess_biomonitoring -.->|"samples"| matrix_blood
+  assess_biomonitoring -.->|"samples"| matrix_hair
+  assess_biomonitoring -.->|"samples"| matrix_milk
+  assess_biomonitoring -.->|"samples"| matrix_saliva
+  assess_biomonitoring -.->|"samples"| matrix_urine
+  assess_external_exposome -.->|"assessed by"| sampler_individual
+  assess_external_exposome -.->|"assessed by"| sampler_wearable_silicone
+  assess_external_exposome -.->|"characterises"| route_inhalation
+  assess_external_exposome -.->|"uses"| method_hrms_nontargeted
+  assess_external_exposome -.->|"uses"| method_hrms_targeted
+  assess_internal_exposome -.->|"assessed by"| assess_biomonitoring
+  assess_internal_exposome -.->|"characterises"| group_biological_response
+  assess_internal_exposome -.->|"uses"| method_hrms_nontargeted
+  assess_internal_exposome -.->|"uses"| method_hrms_targeted
+  chem_6ppd -->|"exposure via"| route_inhalation
+  chem_6ppd -.->|"has role"| role_antioxidant
+  chem_6ppd -.->|"has role"| role_plasticizer
+  chem_6ppd -->|"input of"| proc_heterogeneous_oxidation
+  chem_6ppd -->|"input of"| proc_ozonolysis
+  chem_6ppd_quinone -->|"exposure via"| route_inhalation
+  chem_6ppd_quinone -->|"toxic to"| receptor_coho_salmon
+  chem_alpha_pinene -->|"exposure via"| route_inhalation
+  chem_hydroxyl_radical -->|"input of"| proc_heterogeneous_oxidation
+  chem_ozone -->|"input of"| proc_ozonolysis
+  emission_tire_road_wear -.->|"is a kind of"| emission_non_exhaust
+  emission_tire_road_wear -->|"emits"| particle_trwp
+  ke_allergic_response -->|"leads to"| ke_eosinophils
+  ke_allergic_response -->|"leads to"| ke_macrophages
+  ke_catalase -->|"modulates"| ke_ros_pathway
+  ke_emt -.->|"leads to (AOP knowledge)"| ao_fibrosis
+  ke_eosinophils -.->|"leads to (AOP knowledge)"| ke_inflammation
+  ke_erk_dependent -.->|"is a kind of"| ke_signalling_pathways
+  ke_erk_dependent -->|"leads to"| ao_asthma
+  ke_erk_independent -.->|"is a kind of"| ke_signalling_pathways
+  ke_erk_independent -->|"leads to"| ao_asthma
+  ke_inflammation -.->|"leads to (AOP knowledge)"| ao_asthma
+  ke_inflammation -.->|"leads to (AOP knowledge)"| ke_emt
+  ke_macrophages -.->|"leads to (AOP knowledge)"| ke_inflammation
+  ke_nfkb -.->|"is a kind of"| ke_signalling_pathways
+  ke_nfkb -.->|"leads to (AOP knowledge)"| ke_inflammation
+  ke_ros_pathway -.->|"leads to (AOP knowledge)"| ke_nfkb
+  ke_signalling_pathways -->|"leads to"| ao_fibrosis
+  ke_signalling_pathways -->|"leads to"| ke_emt
+  ke_signalling_pathways -->|"leads to"| ke_unjamming_transition
+  mod_age -.->|"modifies"| group_biological_response
+  mod_genes -.->|"modifies"| group_biological_response
+  mod_sex_gender -.->|"modifies"| group_biological_response
+  mod_smoking_history -.->|"modifies"| group_biological_response
+  omics_adductomics -.->|"measures"| group_biological_response
+  omics_genomics -.->|"measures"| ke_nfkb
+  omics_genomics -.->|"measures"| ke_ros_pathway
+  omics_lipidomics -.->|"measures"| group_biological_response
+  omics_metabolomics -.->|"measures"| group_biological_response
+  omics_proteomics -.->|"measures"| ke_catalase
+  organ_lung -->|"site of"| group_biological_response
+  particle_trwp -.->|"is a kind of"| particle_micro_nanoplastics
+  pop_female_20 -.->|"has characteristic"| mod_age
+  pop_female_20 -.->|"has characteristic"| mod_sex_gender
+  pop_male_60 -.->|"has characteristic"| mod_age
+  pop_male_60 -.->|"has characteristic"| mod_sex_gender
+  proc_ozonolysis -->|"gives"| chem_6ppd_quinone
+  route_inhalation -->|"targets"| organ_lung
+  sampler_individual -.->|"sampling mode"| mode_active_sampling
+  sampler_individual -.->|"sampling mode"| mode_passive_sampling
+  sampler_wearable_silicone -.->|"sampling mode"| mode_passive_sampling
+  source_anthropogenic -->|"includes"| source_tires
+  source_biogenic -->|"emits"| chem_alpha_pinene
+  source_tires -->|"contains"| chem_6ppd
+  source_tires -->|"emits"| emission_tire_road_wear
+
+  classDef Source fill:#e8f5e9,stroke:#2e7d32,color:#111;
+  classDef Emission fill:#f1f8e9,stroke:#558b2f,color:#111;
+  classDef Stressor fill:#fff3e0,stroke:#e65100,color:#111;
+  classDef ChemicalRole fill:#fffde7,stroke:#f9a825,color:#111;
+  classDef TransformationProcess fill:#fbe9e7,stroke:#bf360c,color:#111;
+  classDef ExposureRoute fill:#e3f2fd,stroke:#1565c0,color:#111;
+  classDef Organ fill:#e1f5fe,stroke:#0277bd,color:#111;
+  classDef Receptor fill:#e0f7fa,stroke:#00838f,color:#111;
+  classDef KeyEvent fill:#fce4ec,stroke:#ad1457,color:#111;
+  classDef AdverseOutcome fill:#ffebee,stroke:#b71c1c,color:#111;
+  classDef Modifier fill:#eceff1,stroke:#455a64,color:#111;
+  classDef OmicsMethod fill:#ede7f6,stroke:#4527a0,color:#111;
+  classDef ExposomeAssessment fill:#f3e5f5,stroke:#6a1b9a,color:#111;
+  classDef SamplingMethod fill:#f3e5f5,stroke:#6a1b9a,color:#111;
+  classDef Matrix fill:#f3e5f5,stroke:#6a1b9a,color:#111;
+  classDef AnalyticalMethod fill:#f3e5f5,stroke:#6a1b9a,color:#111;
+  class ao_asthma AdverseOutcome;
+  class ao_fibrosis AdverseOutcome;
+  class assess_biomonitoring ExposomeAssessment;
+  class assess_external_exposome ExposomeAssessment;
+  class assess_internal_exposome ExposomeAssessment;
+  class chem_6ppd Stressor;
+  class chem_6ppd_quinone Stressor;
+  class chem_alpha_pinene Stressor;
+  class chem_hydroxyl_radical Stressor;
+  class chem_ozone Stressor;
+  class emission_non_exhaust Emission;
+  class emission_tire_road_wear Emission;
+  class ke_allergic_response KeyEvent;
+  class ke_catalase KeyEvent;
+  class ke_emt KeyEvent;
+  class ke_eosinophils KeyEvent;
+  class ke_erk_dependent KeyEvent;
+  class ke_erk_independent KeyEvent;
+  class ke_inflammation KeyEvent;
+  class ke_macrophages KeyEvent;
+  class ke_nfkb KeyEvent;
+  class ke_ros_pathway KeyEvent;
+  class ke_signalling_pathways KeyEvent;
+  class ke_unjamming_transition KeyEvent;
+  class matrix_blood Matrix;
+  class matrix_hair Matrix;
+  class matrix_milk Matrix;
+  class matrix_saliva Matrix;
+  class matrix_urine Matrix;
+  class method_hrms_nontargeted AnalyticalMethod;
+  class method_hrms_targeted AnalyticalMethod;
+  class mod_age Modifier;
+  class mod_genes Modifier;
+  class mod_sex_gender Modifier;
+  class mod_smoking_history Modifier;
+  class mode_active_sampling SamplingMethod;
+  class mode_passive_sampling SamplingMethod;
+  class omics_adductomics OmicsMethod;
+  class omics_genomics OmicsMethod;
+  class omics_lipidomics OmicsMethod;
+  class omics_metabolomics OmicsMethod;
+  class omics_proteomics OmicsMethod;
+  class organ_lung Organ;
+  class particle_micro_nanoplastics Stressor;
+  class particle_trwp Stressor;
+  class pop_female_20 Receptor;
+  class pop_male_60 Receptor;
+  class proc_heterogeneous_oxidation TransformationProcess;
+  class proc_ozonolysis TransformationProcess;
+  class receptor_coho_salmon Receptor;
+  class role_antioxidant ChemicalRole;
+  class role_plasticizer ChemicalRole;
+  class route_inhalation ExposureRoute;
+  class sampler_individual SamplingMethod;
+  class sampler_wearable_silicone SamplingMethod;
+  class source_anthropogenic Source;
+  class source_biogenic Source;
+  class source_tires Source;
+  click ao_asthma href "https://example.org/exposome-map/ao_asthma" "Chronic inflammatory disease of the airways." _blank
+  click ao_fibrosis href "https://example.org/exposome-map/ao_fibrosis" "Scarring of lung tissue by excess connective tissue." _blank
+  click assess_biomonitoring href "https://example.org/exposome-map/assess_biomonitoring" "Measurement of chemicals or their markers in human body fluids and tissues. Its matrices are marked as a gap on the board." _blank
+  click assess_external_exposome href "https://example.org/exposome-map/assess_external_exposome" "Measurement of exposure outside the body." _blank
+  click assess_internal_exposome href "https://example.org/exposome-map/assess_internal_exposome" "Measurement of exposure and its effects inside the body." _blank
+  click chem_6ppd href "https://example.org/exposome-map/chem_6ppd" "Tire rubber additive that protects the rubber against ozone and oxidation." _blank
+  click chem_6ppd_quinone href "https://example.org/exposome-map/chem_6ppd_quinone" "Transformation product of 6PPD formed by reaction with ozone." _blank
+  click chem_alpha_pinene href "https://example.org/exposome-map/chem_alpha_pinene" "Monoterpene emitted by vegetation, mainly conifers." _blank
+  click chem_hydroxyl_radical href "https://example.org/exposome-map/chem_hydroxyl_radical" "Atmospheric oxidant (hydroxyl radical)." _blank
+  click chem_ozone href "https://example.org/exposome-map/chem_ozone" "Atmospheric oxidant (O3)." _blank
+  click emission_non_exhaust href "https://example.org/exposome-map/emission_non_exhaust" "Traffic emissions that do not come from the exhaust, such as tire, brake and road wear." _blank
+  click emission_tire_road_wear href "https://example.org/exposome-map/emission_tire_road_wear" "Material released by abrasion between tire and road." _blank
+  click ke_allergic_response href "https://example.org/exposome-map/ke_allergic_response" "Immune reaction of the airways to an inhaled allergen." _blank
+  click ke_catalase href "https://example.org/exposome-map/ke_catalase" "Antioxidant enzyme that breaks down hydrogen peroxide; its level reflects the response to reactive oxygen species." _blank
+  click ke_emt href "https://example.org/exposome-map/ke_emt" "Epithelial cells lose their epithelial character and take on a mesenchymal one. Listed under 'outcome' on the board; modelled here as a key event on the way to fibrosis." _blank
+  click ke_eosinophils href "https://example.org/exposome-map/ke_eosinophils" "Recruitment of eosinophils to the airways." _blank
+  click ke_erk_dependent href "https://example.org/exposome-map/ke_erk_dependent" "Signalling that runs through the extracellular signal-regulated kinase (ERK)." _blank
+  click ke_erk_independent href "https://example.org/exposome-map/ke_erk_independent" "Signalling that does not run through the extracellular signal-regulated kinase (ERK)." _blank
+  click ke_inflammation href "https://example.org/exposome-map/ke_inflammation" "Inflammatory response of the lung tissue." _blank
+  click ke_macrophages href "https://example.org/exposome-map/ke_macrophages" "Activation and recruitment of macrophages in the lung." _blank
+  click ke_nfkb href "https://example.org/exposome-map/ke_nfkb" "Activation of the transcription factor NF-kappaB, a central switch of inflammatory gene expression." _blank
+  click ke_ros_pathway href "https://example.org/exposome-map/ke_ros_pathway" "Formation of reactive oxygen species and the cellular response to them." _blank
+  click ke_signalling_pathways href "https://example.org/exposome-map/ke_signalling_pathways" "Intracellular signalling cascades that pass the stress signal on to gene expression and cell behaviour." _blank
+  click ke_unjamming_transition href "https://example.org/exposome-map/ke_unjamming_transition" "The airway epithelium changes from a solid-like, jammed layer to a fluid-like, migratory one. Listed under 'outcome' on the board." _blank
+  click matrix_blood href "https://example.org/exposome-map/matrix_blood" "Blood as biomonitoring matrix." _blank
+  click matrix_hair href "https://example.org/exposome-map/matrix_hair" "Hair as biomonitoring matrix." _blank
+  click matrix_milk href "https://example.org/exposome-map/matrix_milk" "Breast milk as biomonitoring matrix." _blank
+  click matrix_saliva href "https://example.org/exposome-map/matrix_saliva" "Saliva as biomonitoring matrix." _blank
+  click matrix_urine href "https://example.org/exposome-map/matrix_urine" "Urine as biomonitoring matrix." _blank
+  click method_hrms_nontargeted href "https://example.org/exposome-map/method_hrms_nontargeted" "High-resolution mass spectrometry that screens for chemicals without a predefined target list." _blank
+  click method_hrms_targeted href "https://example.org/exposome-map/method_hrms_targeted" "High-resolution mass spectrometry that quantifies a predefined list of chemicals." _blank
+  click mod_age href "https://example.org/exposome-map/mod_age" "Age of the individual." _blank
+  click mod_genes href "https://example.org/exposome-map/mod_genes" "Genetic make-up of the individual." _blank
+  click mod_sex_gender href "https://example.org/exposome-map/mod_sex_gender" "Sex or gender of the individual." _blank
+  click mod_smoking_history href "https://example.org/exposome-map/mod_smoking_history" "Current and past tobacco smoking of the individual." _blank
+  click mode_active_sampling href "https://example.org/exposome-map/mode_active_sampling" "Sampling in which a pump draws air through the sampler." _blank
+  click mode_passive_sampling href "https://example.org/exposome-map/mode_passive_sampling" "Sampling by diffusion, without a pump." _blank
+  click omics_adductomics href "https://example.org/exposome-map/omics_adductomics" "Large-scale analysis of chemical adducts on DNA and proteins." _blank
+  click omics_genomics href "https://example.org/exposome-map/omics_genomics" "Analysis of genes and their expression." _blank
+  click omics_lipidomics href "https://example.org/exposome-map/omics_lipidomics" "Large-scale analysis of lipids." _blank
+  click omics_metabolomics href "https://example.org/exposome-map/omics_metabolomics" "Large-scale analysis of small-molecule metabolites." _blank
+  click omics_proteomics href "https://example.org/exposome-map/omics_proteomics" "Large-scale analysis of proteins." _blank
+  click organ_lung href "https://example.org/exposome-map/organ_lung" "Organ of gas exchange; first target of inhaled stressors." _blank
+  click particle_micro_nanoplastics href "https://example.org/exposome-map/particle_micro_nanoplastics" "Plastic particles in the micrometre to nanometre size range." _blank
+  click particle_trwp href "https://example.org/exposome-map/particle_trwp" "Particles of tire tread and road material formed by abrasion." _blank
+  click pop_female_20 href "https://example.org/exposome-map/pop_female_20" "Example population group from the board." _blank
+  click pop_male_60 href "https://example.org/exposome-map/pop_male_60" "Example population group from the board." _blank
+  click proc_heterogeneous_oxidation href "https://example.org/exposome-map/proc_heterogeneous_oxidation" "Oxidation of a chemical on a particle or surface by a gas-phase oxidant such as the hydroxyl radical." _blank
+  click proc_ozonolysis href "https://example.org/exposome-map/proc_ozonolysis" "Reaction of a chemical with ozone." _blank
+  click receptor_coho_salmon href "https://example.org/exposome-map/receptor_coho_salmon" "Fish species (Oncorhynchus kisutch) that is acutely sensitive to 6PPD-quinone." _blank
+  click role_antioxidant href "https://example.org/exposome-map/role_antioxidant" "Additive that protects a material against oxidation." _blank
+  click role_plasticizer href "https://example.org/exposome-map/role_plasticizer" "Additive that makes a material more flexible." _blank
+  click route_inhalation href "https://example.org/exposome-map/route_inhalation" "Uptake of a stressor by breathing." _blank
+  click sampler_individual href "https://example.org/exposome-map/sampler_individual" "Sampler carried by one person to measure personal exposure." _blank
+  click sampler_wearable_silicone href "https://example.org/exposome-map/sampler_wearable_silicone" "Silicone band worn on the body that takes up chemicals from air and skin contact." _blank
+  click source_anthropogenic href "https://example.org/exposome-map/source_anthropogenic" "Emissions caused by human activity." _blank
+  click source_biogenic href "https://example.org/exposome-map/source_biogenic" "Emissions of natural, biological origin, such as from vegetation." _blank
+  click source_tires href "https://example.org/exposome-map/source_tires" "Vehicle tires as a source of chemicals and wear particles." _blank

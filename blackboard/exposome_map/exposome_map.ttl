@@ -1,0 +1,574 @@
+@prefix em:   <https://example.org/exposome-map/> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# =====================================================================
+#  Exposome flow map -- knowledge graph of the blackboard drawing
+#
+#  source -> emission -> chemical -> transformation -> exposure route
+#         -> organ -> biological response (key events) -> adverse outcome
+#  with omics methods (what measures it), modifiers (sex, age, ...) and
+#  exposome assessment (external / internal) attached.
+#
+#  This file is the single source of truth. build_map.py derives the
+#  JSON-LD, the Mermaid diagram and the clickable SVG from it.
+#
+#  skos:hiddenLabel  spelling variants used only for the ontology lookup
+#  em:ink     colour the item had on the board ("orange" = the flow,
+#             "purple" = annotations)
+#  em:board   which photo series the item comes from (1 or 2)
+#  em:x em:y  layout hints for the SVG (grid units, not pixels)
+# =====================================================================
+
+em:map a owl:Ontology ;
+    rdfs:label "Exposome flow map (blackboard)"@en ;
+    dcterms:description "Knowledge graph of an exposome workflow, from source via chemical and exposure route to biological processes and adverse outcomes, drawn on a blackboard on 2026-11-10."@en ;
+    dcterms:created "2026-11-11"^^xsd:date .
+
+# ---------------------------------------------------------------------
+#  Vocabulary: node classes (the stages of the flow)
+# ---------------------------------------------------------------------
+
+em:Node a owl:Class ; rdfs:label "map node"@en .
+
+em:Source a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 1 ;
+    rdfs:label "source"@en ;
+    skos:definition "Origin of an emission or chemical, natural or man-made."@en .
+em:Emission a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 2 ;
+    rdfs:label "emission"@en ;
+    skos:definition "Release of material from a source into the environment."@en .
+em:Stressor a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 3 ;
+    rdfs:label "chemical / stressor"@en ;
+    skos:definition "Chemical or particle that an organism is exposed to (stressor in adverse outcome pathway terms)."@en .
+em:ChemicalRole a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 3 ;
+    rdfs:label "chemical role"@en ;
+    skos:definition "Function a chemical has in a product."@en .
+em:TransformationProcess a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 4 ;
+    rdfs:label "transformation process"@en ;
+    skos:definition "Environmental reaction that converts a chemical into a transformation product."@en .
+em:ExposureRoute a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 5 ;
+    rdfs:label "exposure route"@en ;
+    skos:definition "Way a stressor enters the organism."@en .
+em:Organ a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 6 ;
+    rdfs:label "organ"@en ;
+    skos:definition "Organ or tissue where the stressor acts."@en .
+em:Receptor a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 6 ;
+    rdfs:label "receptor organism / population group"@en ;
+    skos:definition "Organism or population group that is exposed."@en .
+em:ProcessGroup a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 7 ;
+    rdfs:label "process group"@en ;
+    skos:definition "Group of biological processes, drawn as a bracket on the board."@en .
+em:KeyEvent a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 7 ;
+    rdfs:label "biological process (key event)"@en ;
+    skos:definition "Measurable biological change between exposure and adverse outcome (key event in adverse outcome pathway terms)."@en .
+em:AdverseOutcome a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 8 ;
+    rdfs:label "adverse outcome"@en ;
+    skos:definition "Health effect at organ or organism level (adverse outcome in adverse outcome pathway terms)."@en .
+em:Modifier a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 9 ;
+    rdfs:label "modifier"@en ;
+    skos:definition "Characteristic of the individual that changes the biological response to an exposure."@en .
+em:OmicsMethod a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 10 ;
+    rdfs:label "omics method"@en ;
+    skos:definition "Omics technology with which a biological process can be measured."@en .
+em:ExposomeAssessment a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 11 ;
+    rdfs:label "exposome assessment"@en ;
+    skos:definition "Approach to measure the external or internal exposome."@en .
+em:SamplingMethod a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 11 ;
+    rdfs:label "sampling method"@en ;
+    skos:definition "Sampler or sampling mode used to measure external exposure."@en .
+em:Matrix a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 11 ;
+    rdfs:label "biomonitoring matrix"@en ;
+    skos:definition "Body fluid or tissue sampled in human biomonitoring."@en .
+em:AnalyticalMethod a owl:Class ; rdfs:subClassOf em:Node ; em:stageOrder 11 ;
+    rdfs:label "analytical method"@en ;
+    skos:definition "Instrumental method used to analyse samples."@en .
+em:Workflow a owl:Class ;
+    rdfs:label "workflow"@en ;
+    skos:definition "A path through the map, from a source to the biological response."@en .
+
+# ---------------------------------------------------------------------
+#  Vocabulary: edges
+#  em:flow true   = part of the main (orange) exposure-to-outcome flow
+#  em:inferred true = not drawn on the board, added from adverse outcome
+#                     pathway knowledge (drawn dashed)
+# ---------------------------------------------------------------------
+
+em:includes a owl:ObjectProperty ; rdfs:label "includes"@en ; em:flow true .
+em:emits a owl:ObjectProperty ; rdfs:label "emits"@en ; em:flow true .
+em:contains a owl:ObjectProperty ; rdfs:label "contains"@en ; em:flow true .
+em:inputOf a owl:ObjectProperty ; rdfs:label "input of"@en ; em:flow true .
+em:hasOutput a owl:ObjectProperty ; rdfs:label "gives"@en ; em:flow true .
+em:exposureVia a owl:ObjectProperty ; rdfs:label "exposure via"@en ; em:flow true .
+em:targets a owl:ObjectProperty ; rdfs:label "targets"@en ; em:flow true .
+em:siteOf a owl:ObjectProperty ; rdfs:label "site of"@en ; em:flow true .
+em:leadsTo a owl:ObjectProperty ; rdfs:label "leads to"@en ; em:flow true .
+em:leadsToAOP a owl:ObjectProperty ; rdfs:subPropertyOf em:leadsTo ;
+    rdfs:label "leads to (AOP knowledge)"@en ; em:flow true ; em:inferred true ;
+    rdfs:comment "Link that is not drawn on the board; added from adverse outcome pathway knowledge."@en .
+em:modulates a owl:ObjectProperty ; rdfs:label "modulates"@en ; em:flow true .
+em:toxicTo a owl:ObjectProperty ; rdfs:label "toxic to"@en ; em:flow true .
+
+em:hasPart a owl:ObjectProperty ; rdfs:label "has part"@en ;
+    rdfs:comment "Membership of a process group; drawn as a bracket, not as arrows."@en .
+em:hasRole a owl:ObjectProperty ; rdfs:label "has role"@en .
+em:modifies a owl:ObjectProperty ; rdfs:label "modifies"@en .
+em:hasCharacteristic a owl:ObjectProperty ; rdfs:label "has characteristic"@en .
+em:measures a owl:ObjectProperty ; rdfs:label "measures"@en .
+em:characterises a owl:ObjectProperty ; rdfs:label "characterises"@en .
+em:assessedBy a owl:ObjectProperty ; rdfs:label "assessed by"@en .
+em:usesMethod a owl:ObjectProperty ; rdfs:label "uses"@en .
+em:usesMatrix a owl:ObjectProperty ; rdfs:label "samples"@en .
+em:samplingMode a owl:ObjectProperty ; rdfs:label "sampling mode"@en .
+em:inWorkflow a owl:ObjectProperty ; rdfs:label "in workflow"@en .
+
+em:labelMatch a owl:ObjectProperty ; rdfs:subPropertyOf skos:mappingRelation ;
+    rdfs:label "label match"@en ;
+    rdfs:comment "Ontology term on ExpoPortal whose label or exact synonym equals a label of this node (ignoring case). Found automatically; not curated. The matches are in exposome_map_mappings.ttl."@en .
+em:inOntology a owl:DatatypeProperty ; rdfs:label "in ontology (ExpoPortal acronym)"@en .
+
+em:ink a owl:DatatypeProperty ; rdfs:label "ink colour on the board"@en .
+em:board a owl:DatatypeProperty ; rdfs:label "board number"@en .
+em:x a owl:DatatypeProperty ; rdfs:label "layout x (grid units)"@en .
+em:y a owl:DatatypeProperty ; rdfs:label "layout y (grid units)"@en .
+em:stageOrder a owl:DatatypeProperty ; rdfs:label "order of the stage in the flow"@en .
+em:flow a owl:DatatypeProperty ; rdfs:label "is part of the main flow"@en .
+em:inferred a owl:DatatypeProperty ; rdfs:label "not drawn on the board"@en .
+
+# ---------------------------------------------------------------------
+#  Workflows
+# ---------------------------------------------------------------------
+
+em:wf_biogenic a em:Workflow ;
+    rdfs:label "biogenic workflow (alpha-pinene)"@en ;
+    skos:definition "Biogenic source, alpha-pinene, inhalation, lung, biological response."@en .
+em:wf_anthropogenic a em:Workflow ;
+    rdfs:label "anthropogenic workflow (tires, 6PPD)"@en ;
+    skos:definition "Anthropogenic source, tires, 6PPD and 6PPD-quinone, inhalation, lung, biological response."@en .
+
+# ---------------------------------------------------------------------
+#  1. Sources and emissions
+# ---------------------------------------------------------------------
+
+em:source_biogenic a em:Source ;
+    rdfs:label "biogenic"@en ;
+    skos:definition "Emissions of natural, biological origin, such as from vegetation."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 0.0 ; em:y 1.0 ;
+    em:inWorkflow em:wf_biogenic ;
+    em:emits em:chem_alpha_pinene .
+
+em:source_anthropogenic a em:Source ;
+    rdfs:label "anthropogenic"@en ;
+    skos:definition "Emissions caused by human activity."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 0.0 ; em:y 4.0 ;
+    em:inWorkflow em:wf_anthropogenic ;
+    em:includes em:source_tires .
+
+em:source_tires a em:Source ;
+    rdfs:label "tires"@en ;
+    skos:hiddenLabel "tire"@en , "tyre"@en ;
+    skos:definition "Vehicle tires as a source of chemicals and wear particles."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 1.0 ; em:y 4.0 ;
+    em:inWorkflow em:wf_anthropogenic ;
+    em:contains em:chem_6ppd ;
+    em:emits em:emission_tire_road_wear .
+
+em:emission_tire_road_wear a em:Emission ;
+    rdfs:label "tire-road wear emissions"@en ;
+    skos:definition "Material released by abrasion between tire and road."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 1.0 ; em:y 5.3 ;
+    skos:broader em:emission_non_exhaust ;
+    em:emits em:particle_trwp .
+
+em:emission_non_exhaust a em:Emission ;
+    rdfs:label "non-exhaust emissions"@en ;
+    skos:altLabel "non-tailpipe emissions"@en ;
+    skos:definition "Traffic emissions that do not come from the exhaust, such as tire, brake and road wear."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 0.0 ; em:y 5.3 .
+
+# ---------------------------------------------------------------------
+#  2. Chemicals / stressors, their roles and transformation
+# ---------------------------------------------------------------------
+
+em:chem_alpha_pinene a em:Stressor ;
+    rdfs:label "α-pinene"@en ;
+    skos:altLabel "alpha-pinene"@en ;
+    skos:definition "Monoterpene emitted by vegetation, mainly conifers."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 2.0 ; em:y 1.0 ;
+    em:inWorkflow em:wf_biogenic ;
+    em:exposureVia em:route_inhalation .
+
+em:chem_6ppd a em:Stressor ;
+    rdfs:label "6PPD"@en ;
+    skos:altLabel "N-(1,3-dimethylbutyl)-N'-phenyl-p-phenylenediamine"@en ;
+    skos:definition "Tire rubber additive that protects the rubber against ozone and oxidation."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 2.0 ; em:y 4.0 ;
+    em:inWorkflow em:wf_anthropogenic ;
+    em:hasRole em:role_antioxidant , em:role_plasticizer ;
+    em:inputOf em:proc_ozonolysis , em:proc_heterogeneous_oxidation ;
+    em:exposureVia em:route_inhalation .
+
+em:chem_6ppd_quinone a em:Stressor ;
+    rdfs:label "6PPD-Q"@en ;
+    skos:hiddenLabel "6PPD quinone"@en ;
+    skos:altLabel "6PPD-quinone"@en ;
+    skos:definition "Transformation product of 6PPD formed by reaction with ozone."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 4.0 ; em:y 5.3 ;
+    em:inWorkflow em:wf_anthropogenic ;
+    em:toxicTo em:receptor_coho_salmon ;
+    em:exposureVia em:route_inhalation .
+
+em:chem_ozone a em:Stressor ;
+    rdfs:label "ozone"@en ;
+    skos:definition "Atmospheric oxidant (O3)."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 2.0 ; em:y 5.3 ;
+    em:inputOf em:proc_ozonolysis .
+
+em:chem_hydroxyl_radical a em:Stressor ;
+    rdfs:label "•OH"@en ;
+    skos:hiddenLabel "hydroxyl"@en ;
+    skos:altLabel "hydroxyl radical"@en ;
+    skos:definition "Atmospheric oxidant (hydroxyl radical)."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 2.0 ; em:y 6.5 ;
+    em:inputOf em:proc_heterogeneous_oxidation .
+
+em:particle_trwp a em:Stressor ;
+    rdfs:label "TRWPs"@en ;
+    skos:hiddenLabel "tire wear particles"@en ;
+    skos:altLabel "tire and road wear particles"@en ;
+    skos:definition "Particles of tire tread and road material formed by abrasion."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 1.0 ; em:y 6.6 ;
+    skos:broader em:particle_micro_nanoplastics .
+
+em:particle_micro_nanoplastics a em:Stressor ;
+    rdfs:label "micro-nanoplastics"@en ;
+    skos:hiddenLabel "microplastic"@en , "microplastics"@en , "nanoplastic"@en , "nanoplastics"@en ;
+    skos:definition "Plastic particles in the micrometre to nanometre size range."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 1.0 ; em:y 7.9 .
+
+em:role_antioxidant a em:ChemicalRole ;
+    rdfs:label "anti-oxidant"@en ;
+    skos:hiddenLabel "antioxidant"@en ;
+    skos:definition "Additive that protects a material against oxidation."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 2.0 ; em:y 2.8 .
+
+em:role_plasticizer a em:ChemicalRole ;
+    rdfs:label "plasticizer"@en ;
+    skos:definition "Additive that makes a material more flexible."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 1.0 ; em:y 2.8 .
+
+em:proc_ozonolysis a em:TransformationProcess ;
+    rdfs:label "ozonolysis"@en ;
+    skos:definition "Reaction of a chemical with ozone."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 3.0 ; em:y 5.3 ;
+    em:inWorkflow em:wf_anthropogenic ;
+    em:hasOutput em:chem_6ppd_quinone .
+
+em:proc_heterogeneous_oxidation a em:TransformationProcess ;
+    rdfs:label "heterogeneous oxidation"@en ;
+    skos:definition "Oxidation of a chemical on a particle or surface by a gas-phase oxidant such as the hydroxyl radical."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 3.0 ; em:y 6.5 .
+
+# ---------------------------------------------------------------------
+#  3. Exposure route, organ, receptors
+# ---------------------------------------------------------------------
+
+em:route_inhalation a em:ExposureRoute ;
+    rdfs:label "inhalation"@en ;
+    skos:definition "Uptake of a stressor by breathing."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 5.0 ; em:y 4.0 ;
+    em:inWorkflow em:wf_biogenic , em:wf_anthropogenic ;
+    em:targets em:organ_lung .
+
+em:organ_lung a em:Organ ;
+    rdfs:label "lung"@en ;
+    skos:definition "Organ of gas exchange; first target of inhaled stressors."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 6.0 ; em:y 4.0 ;
+    em:inWorkflow em:wf_biogenic , em:wf_anthropogenic ;
+    em:siteOf em:group_biological_response .
+
+em:receptor_coho_salmon a em:Receptor ;
+    rdfs:label "coho salmon"@en ;
+    skos:hiddenLabel "Oncorhynchus kisutch"@en ;
+    skos:definition "Fish species (Oncorhynchus kisutch) that is acutely sensitive to 6PPD-quinone."@en ;
+    em:ink "orange" ; em:board 2 ; em:x 4.0 ; em:y 6.6 .
+
+em:pop_male_60 a em:Receptor ;
+    rdfs:label "male, 60 yrs"@en ;
+    skos:definition "Example population group from the board."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 13.1 ; em:y 2.5 ;
+    em:hasCharacteristic em:mod_sex_gender , em:mod_age .
+
+em:pop_female_20 a em:Receptor ;
+    rdfs:label "female, 20 yrs"@en ;
+    skos:definition "Example population group from the board."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 13.1 ; em:y 3.7 ;
+    em:hasCharacteristic em:mod_sex_gender , em:mod_age .
+
+# ---------------------------------------------------------------------
+#  4. Biological response: key events and adverse outcomes
+# ---------------------------------------------------------------------
+
+em:group_biological_response a em:ProcessGroup ;
+    rdfs:label "biological response"@en ;
+    skos:definition "Biological processes triggered in the lung by the exposure, from molecular key events to adverse outcomes."@en ;
+    em:ink "orange" ; em:board 1 ;
+    em:inWorkflow em:wf_biogenic , em:wf_anthropogenic ;
+    em:hasPart em:ke_ros_pathway , em:ke_nfkb , em:ke_catalase ,
+        em:ke_signalling_pathways , em:ke_erk_dependent , em:ke_erk_independent ,
+        em:ke_allergic_response , em:ke_macrophages , em:ke_eosinophils ,
+        em:ke_inflammation , em:ke_emt , em:ke_unjamming_transition ,
+        em:ao_fibrosis , em:ao_asthma .
+
+em:ke_ros_pathway a em:KeyEvent ;
+    rdfs:label "ROS pathway"@en ;
+    skos:hiddenLabel "response to oxidative stress"@en ;
+    skos:altLabel "reactive oxygen species pathway"@en , "oxidative stress"@en ;
+    skos:definition "Formation of reactive oxygen species and the cellular response to them."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 7.0 ; em:y 1.4 ;
+    em:leadsToAOP em:ke_nfkb .
+
+em:ke_nfkb a em:KeyEvent ;
+    rdfs:label "NF-κB"@en ;
+    skos:hiddenLabel "NF-kappaB"@en ;
+    skos:altLabel "nf-kB"@en , "NF-kappaB signalling"@en ;
+    skos:definition "Activation of the transcription factor NF-kappaB, a central switch of inflammatory gene expression."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 7.0 ; em:y 2.6 ;
+    skos:broader em:ke_signalling_pathways ;
+    em:leadsToAOP em:ke_inflammation .
+
+em:ke_catalase a em:KeyEvent ;
+    rdfs:label "catalase"@en ;
+    skos:definition "Antioxidant enzyme that breaks down hydrogen peroxide; its level reflects the response to reactive oxygen species."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 8.0 ; em:y 1.4 ;
+    em:modulates em:ke_ros_pathway .
+
+em:ke_signalling_pathways a em:KeyEvent ;
+    rdfs:label "signalling pathways"@en ;
+    skos:hiddenLabel "signaling pathway"@en , "signal transduction"@en ;
+    skos:definition "Intracellular signalling cascades that pass the stress signal on to gene expression and cell behaviour."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 7.0 ; em:y 3.8 ;
+    em:leadsTo em:ke_emt , em:ke_unjamming_transition , em:ao_fibrosis .
+
+em:ke_erk_dependent a em:KeyEvent ;
+    rdfs:label "ERK-dependent"@en ;
+    skos:altLabel "ERK-dependent signalling"@en ;
+    skos:definition "Signalling that runs through the extracellular signal-regulated kinase (ERK)."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 7.0 ; em:y 5.0 ;
+    skos:broader em:ke_signalling_pathways ;
+    em:leadsTo em:ao_asthma .
+
+em:ke_erk_independent a em:KeyEvent ;
+    rdfs:label "ERK-independent"@en ;
+    skos:altLabel "ERK-independent signalling"@en ;
+    skos:definition "Signalling that does not run through the extracellular signal-regulated kinase (ERK)."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 7.0 ; em:y 6.0 ;
+    skos:broader em:ke_signalling_pathways ;
+    em:leadsTo em:ao_asthma .
+
+em:ke_allergic_response a em:KeyEvent ;
+    rdfs:label "allergy"@en ;
+    skos:altLabel "allergic response"@en ;
+    skos:definition "Immune reaction of the airways to an inhaled allergen."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 7.0 ; em:y 7.6 ;
+    em:leadsTo em:ke_macrophages , em:ke_eosinophils .
+
+em:ke_macrophages a em:KeyEvent ;
+    rdfs:label "macrophages"@en ;
+    skos:hiddenLabel "macrophage"@en ;
+    skos:altLabel "macrophage activation"@en ;
+    skos:definition "Activation and recruitment of macrophages in the lung."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 8.0 ; em:y 7.0 ;
+    em:leadsToAOP em:ke_inflammation .
+
+em:ke_eosinophils a em:KeyEvent ;
+    rdfs:label "eosinophils"@en ;
+    skos:hiddenLabel "eosinophil"@en ;
+    skos:altLabel "eosinophil recruitment"@en ;
+    skos:definition "Recruitment of eosinophils to the airways."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 8.0 ; em:y 8.2 ;
+    em:leadsToAOP em:ke_inflammation .
+
+em:ke_inflammation a em:KeyEvent ;
+    rdfs:label "inflammation"@en ;
+    skos:definition "Inflammatory response of the lung tissue."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 9.0 ; em:y 6.6 ;
+    em:leadsToAOP em:ke_emt , em:ao_asthma .
+
+em:ke_emt a em:KeyEvent ;
+    rdfs:label "epithelial-mesenchymal transition"@en ;
+    skos:hiddenLabel "epithelial to mesenchymal transition"@en ;
+    skos:altLabel "EMT"@en ;
+    skos:definition "Epithelial cells lose their epithelial character and take on a mesenchymal one. Listed under 'outcome' on the board; modelled here as a key event on the way to fibrosis."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 9.0 ; em:y 4.2 ;
+    em:leadsToAOP em:ao_fibrosis .
+
+em:ke_unjamming_transition a em:KeyEvent ;
+    rdfs:label "unjamming transition"@en ;
+    skos:definition "The airway epithelium changes from a solid-like, jammed layer to a fluid-like, migratory one. Listed under 'outcome' on the board."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 9.0 ; em:y 2.4 .
+
+em:ao_fibrosis a em:AdverseOutcome ;
+    rdfs:label "fibrosis"@en ;
+    skos:hiddenLabel "pulmonary fibrosis"@en ;
+    skos:altLabel "lung fibrosis"@en ;
+    skos:definition "Scarring of lung tissue by excess connective tissue."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 10.3 ; em:y 3.0 .
+
+em:ao_asthma a em:AdverseOutcome ;
+    rdfs:label "asthma"@en ;
+    skos:definition "Chronic inflammatory disease of the airways."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 10.3 ; em:y 5.6 .
+
+# ---------------------------------------------------------------------
+#  5. Modifiers
+# ---------------------------------------------------------------------
+
+em:mod_sex_gender a em:Modifier ;
+    rdfs:label "gender"@en ;
+    skos:altLabel "sex"@en ;
+    skos:definition "Sex or gender of the individual."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 11.9 ; em:y 2.5 ;
+    em:modifies em:group_biological_response .
+
+em:mod_age a em:Modifier ;
+    rdfs:label "age"@en ;
+    skos:definition "Age of the individual."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 11.9 ; em:y 3.7 ;
+    em:modifies em:group_biological_response .
+
+em:mod_smoking_history a em:Modifier ;
+    rdfs:label "smoking history"@en ;
+    skos:definition "Current and past tobacco smoking of the individual."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 11.9 ; em:y 4.9 ;
+    em:modifies em:group_biological_response .
+
+em:mod_genes a em:Modifier ;
+    rdfs:label "genes"@en ;
+    skos:hiddenLabel "gene"@en ;
+    skos:altLabel "genetic background"@en ;
+    skos:definition "Genetic make-up of the individual."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 11.9 ; em:y 6.1 ;
+    em:modifies em:group_biological_response .
+
+# ---------------------------------------------------------------------
+#  6. Omics methods (how the biological processes are measured)
+# ---------------------------------------------------------------------
+
+em:omics_genomics a em:OmicsMethod ;
+    rdfs:label "genome"@en ;
+    skos:altLabel "genomics"@en ;
+    skos:definition "Analysis of genes and their expression."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 7.0 ; em:y -0.3 ;
+    em:measures em:ke_ros_pathway , em:ke_nfkb .
+
+em:omics_proteomics a em:OmicsMethod ;
+    rdfs:label "proteomics"@en ;
+    skos:definition "Large-scale analysis of proteins."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 8.0 ; em:y -0.3 ;
+    em:measures em:ke_catalase .
+
+em:omics_metabolomics a em:OmicsMethod ;
+    rdfs:label "metabolomics"@en ;
+    skos:definition "Large-scale analysis of small-molecule metabolites."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 8.95 ; em:y -0.3 ;
+    em:measures em:group_biological_response .
+
+em:omics_lipidomics a em:OmicsMethod ;
+    rdfs:label "lipidomics"@en ;
+    skos:definition "Large-scale analysis of lipids."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 9.78 ; em:y -0.3 ;
+    em:measures em:group_biological_response .
+
+em:omics_adductomics a em:OmicsMethod ;
+    rdfs:label "adductomics"@en ;
+    skos:definition "Large-scale analysis of chemical adducts on DNA and proteins."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 10.6 ; em:y -0.3 ;
+    em:measures em:group_biological_response .
+
+# ---------------------------------------------------------------------
+#  7. Exposome assessment: external (samplers) and internal (biomonitoring)
+# ---------------------------------------------------------------------
+
+em:assess_external_exposome a em:ExposomeAssessment ;
+    rdfs:label "external exposome"@en ;
+    skos:definition "Measurement of exposure outside the body."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 5.0 ; em:y 9.6 ;
+    em:characterises em:route_inhalation ;
+    em:assessedBy em:sampler_individual , em:sampler_wearable_silicone ;
+    em:usesMethod em:method_hrms_nontargeted , em:method_hrms_targeted .
+
+em:assess_internal_exposome a em:ExposomeAssessment ;
+    rdfs:label "internal exposome"@en ;
+    skos:definition "Measurement of exposure and its effects inside the body."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 7.0 ; em:y 9.9 ;
+    em:characterises em:group_biological_response ;
+    em:assessedBy em:assess_biomonitoring ;
+    em:usesMethod em:method_hrms_nontargeted , em:method_hrms_targeted .
+
+em:sampler_individual a em:SamplingMethod ;
+    rdfs:label "individual samplers"@en ;
+    skos:altLabel "personal samplers"@en ;
+    skos:definition "Sampler carried by one person to measure personal exposure."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 4.0 ; em:y 9.0 ;
+    em:samplingMode em:mode_active_sampling , em:mode_passive_sampling .
+
+em:sampler_wearable_silicone a em:SamplingMethod ;
+    rdfs:label "wearable silicone samplers"@en ;
+    skos:hiddenLabel "silicone wristband"@en ;
+    skos:altLabel "silicone wristbands"@en ;
+    skos:definition "Silicone band worn on the body that takes up chemicals from air and skin contact."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 4.0 ; em:y 10.2 ;
+    em:samplingMode em:mode_passive_sampling .
+
+em:mode_active_sampling a em:SamplingMethod ;
+    rdfs:label "active sampling"@en ;
+    skos:definition "Sampling in which a pump draws air through the sampler."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 3.0 ; em:y 9.0 .
+
+em:mode_passive_sampling a em:SamplingMethod ;
+    rdfs:label "passive sampling"@en ;
+    skos:definition "Sampling by diffusion, without a pump."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 3.0 ; em:y 10.2 .
+
+em:assess_biomonitoring a em:ExposomeAssessment ;
+    rdfs:label "biomonitoring"@en ;
+    skos:hiddenLabel "biological monitoring"@en ;
+    skos:altLabel "human biomonitoring"@en ;
+    skos:definition "Measurement of chemicals or their markers in human body fluids and tissues. Its matrices are marked as a gap on the board."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 8.8 ; em:y 11.1 ;
+    em:usesMatrix em:matrix_blood , em:matrix_urine , em:matrix_milk ,
+        em:matrix_saliva , em:matrix_hair .
+
+em:matrix_blood a em:Matrix ; rdfs:label "blood"@en ;
+    skos:definition "Blood as biomonitoring matrix."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 7.2 ; em:y 12.5 .
+em:matrix_urine a em:Matrix ; rdfs:label "urine"@en ;
+    skos:definition "Urine as biomonitoring matrix."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 8.0 ; em:y 12.5 .
+em:matrix_milk a em:Matrix ; rdfs:label "milk"@en ;
+    skos:hiddenLabel "human milk"@en ;
+    skos:altLabel "breast milk"@en ;
+    skos:definition "Breast milk as biomonitoring matrix."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 8.8 ; em:y 12.5 .
+em:matrix_saliva a em:Matrix ; rdfs:label "saliva"@en ;
+    skos:definition "Saliva as biomonitoring matrix."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 9.6 ; em:y 12.5 .
+em:matrix_hair a em:Matrix ; rdfs:label "hair"@en ;
+    skos:definition "Hair as biomonitoring matrix."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 10.4 ; em:y 12.5 .
+
+em:method_hrms_nontargeted a em:AnalyticalMethod ;
+    rdfs:label "non-targeted HRMS"@en ;
+    skos:altLabel "non-targeted high-resolution mass spectrometry"@en ;
+    skos:definition "High-resolution mass spectrometry that screens for chemicals without a predefined target list."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 6.0 ; em:y 10.9 .
+
+em:method_hrms_targeted a em:AnalyticalMethod ;
+    rdfs:label "targeted HRMS"@en ;
+    skos:altLabel "targeted high-resolution mass spectrometry"@en ;
+    skos:definition "High-resolution mass spectrometry that quantifies a predefined list of chemicals."@en ;
+    em:ink "purple" ; em:board 1 ; em:x 6.0 ; em:y 12.0 .
