@@ -1,7 +1,9 @@
 name: Update exposome map
 
 # Regenerates the files that are built from the Turtle files of the exposome
-# map (see the Makefile) and commits them.
+# map (see the Makefile) and commits them. A new node first gets a place on
+# the map in exposome_map_coordinates.ttl (layout_map.py); places that are
+# already there are kept.
 
 on:
   push:

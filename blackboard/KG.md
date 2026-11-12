@@ -79,7 +79,17 @@ Both scripts need rdflib (Debian package `python3-rdflib`). The PNG needs
   `em:exposureVia`, `em:leadsTo`, `em:measures`, `em:modifies`, and so on).
   `skos:broader` is used for "is a kind of".
 - **Layout hints.** `em:x` and `em:y` give each node a place on a grid. The
-  SVG is drawn from these, so a new node needs both values.
+  SVG is drawn from these. Since 2026-11-12 they are not in
+  `exposome_map.ttl` but in `exposome_map_coordinates.ttl`.
+- **Place of a new node.** `layout_map.py` adds a place for every node that
+  has none, at the end of the coordinates file. It runs as part of `make`,
+  and so also in the GitHub Action. It puts the node to the right of a node
+  that points to it, or to the left of a node it points to; else below the
+  other nodes of its class. If that place is taken, it takes the nearest free
+  place below or above. It only looks at other nodes, not at links, labels or
+  the outline of a group, so the place is a first guess.
+- **Moving a node.** Edit its line in the coordinates file. The script never
+  changes or removes a line that is already there.
 
 ## Ontology terms from ExpoPortal
 

@@ -10,6 +10,9 @@ Writes, next to the Turtle file:
     exposome_map.png      the SVG as an image, at twice its size (needs rsvg-convert)
     exposome_map.html     the SVG in a web page; hovering a node shows its ontology terms
 
+exposome_map_coordinates.ttl is read as part of the graph: it has the places of
+the nodes (em:x, em:y) and is kept complete by layout_map.py.
+
 If exposome_map_mappings.ttl exists it is read as part of the graph. Its
 em:curatorMatch links (written by hand) and em:labelMatch links (written by
 match_ontology.py) are the ontology terms shown in the page, curator matches first.
@@ -66,9 +69,10 @@ def matches(g, n):
 def load(ttl):
     g = Graph()
     g.parse(ttl, format="turtle")
-    mappings = ttl.with_name(ttl.stem + "_mappings.ttl")
-    if mappings.exists():
-        g.parse(mappings, format="turtle")
+    for part in ("_coordinates.ttl", "_mappings.ttl"):       # the places of the nodes, the ontology terms
+        extra = ttl.with_name(ttl.stem + part)
+        if extra.exists():
+            g.parse(extra, format="turtle")
     classes = {}
     for c in g.subjects(RDFS.subClassOf, EM.Node):
         classes[c] = {"label": str(g.value(c, RDFS.label)), "order": int(g.value(c, EM.stageOrder) or 99)}
@@ -641,7 +645,7 @@ def main():
     ids = [d["id"] for d in nodes.values()]
     assert len(ids) == len(set(ids)), "node identifiers are not unique"
     missing = [d["id"] for n, d in nodes.items() if n not in groups and d["x"] is None]
-    assert not missing, f"nodes without layout hints: {missing}"
+    assert not missing, f"nodes without a place (run layout_map.py first): {missing}"
     stem = args.ttl.with_suffix("")
     write_jsonld(g, stem.with_suffix(".jsonld"))
     write_mermaid(classes, props, nodes, groups, edges, stem.with_suffix(".mmd"))

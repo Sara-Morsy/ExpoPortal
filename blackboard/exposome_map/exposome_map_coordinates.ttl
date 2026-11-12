@@ -1,0 +1,71 @@
+@prefix em: <https://example.org/exposome-map/> .
+
+# =====================================================================
+#  Places of the nodes on the exposome map (layout hints for the SVG)
+#
+#  em:x  column, em:y  row; in grid units, not pixels. One column is 178
+#  pixels wide, one row 70 pixels high. Fractions are allowed.
+#
+#  layout_map.py ("make") adds a place for every node of exposome_map.ttl
+#  that has none yet, at the end of this file. It never changes or removes
+#  a line that is already here: edit this file by hand to move a node.
+# =====================================================================
+
+em:source_biogenic em:x 0.0 ; em:y 1.0 .
+em:source_anthropogenic em:x 0.0 ; em:y 4.0 .
+em:source_tires em:x 1.0 ; em:y 4.0 .
+em:emission_tire_road_wear em:x 1.0 ; em:y 5.3 .
+em:emission_non_exhaust em:x 0.0 ; em:y 5.3 .
+em:chem_alpha_pinene em:x 2.0 ; em:y 1.0 .
+em:chem_6ppd em:x 2.0 ; em:y 4.0 .
+em:chem_6ppd_quinone em:x 4.0 ; em:y 5.3 .
+em:chem_ozone em:x 2.0 ; em:y 5.3 .
+em:chem_hydroxyl_radical em:x 2.0 ; em:y 6.5 .
+em:particle_trwp em:x 1.0 ; em:y 6.6 .
+em:particle_micro_nanoplastics em:x 1.0 ; em:y 7.9 .
+em:role_antioxidant em:x 2.0 ; em:y 2.8 .
+em:role_plasticizer em:x 1.0 ; em:y 2.8 .
+em:proc_ozonolysis em:x 3.0 ; em:y 5.3 .
+em:proc_heterogeneous_oxidation em:x 3.0 ; em:y 6.5 .
+em:route_inhalation em:x 5.0 ; em:y 4.0 .
+em:organ_lung em:x 6.0 ; em:y 4.0 .
+em:receptor_coho_salmon em:x 4.0 ; em:y 6.6 .
+em:pop_male_60 em:x 13.1 ; em:y 2.5 .
+em:pop_female_20 em:x 13.1 ; em:y 3.7 .
+em:ke_ros_pathway em:x 7.0 ; em:y 1.4 .
+em:ke_nfkb em:x 7.0 ; em:y 2.6 .
+em:ke_catalase em:x 8.0 ; em:y 1.4 .
+em:ke_signalling_pathways em:x 7.0 ; em:y 3.8 .
+em:ke_erk_dependent em:x 7.0 ; em:y 5.0 .
+em:ke_erk_independent em:x 7.0 ; em:y 6.0 .
+em:ke_allergic_response em:x 7.0 ; em:y 7.6 .
+em:ke_macrophages em:x 8.0 ; em:y 7.0 .
+em:ke_eosinophils em:x 8.0 ; em:y 8.2 .
+em:ke_inflammation em:x 9.0 ; em:y 6.6 .
+em:ke_emt em:x 9.0 ; em:y 4.2 .
+em:ke_unjamming_transition em:x 9.0 ; em:y 2.4 .
+em:ao_fibrosis em:x 10.3 ; em:y 3.0 .
+em:ao_asthma em:x 10.3 ; em:y 5.6 .
+em:mod_sex_gender em:x 11.9 ; em:y 2.5 .
+em:mod_age em:x 11.9 ; em:y 3.7 .
+em:mod_smoking_history em:x 11.9 ; em:y 4.9 .
+em:mod_genes em:x 11.9 ; em:y 6.1 .
+em:omics_genomics em:x 7.0 ; em:y -0.3 .
+em:omics_proteomics em:x 8.0 ; em:y -0.3 .
+em:omics_metabolomics em:x 8.95 ; em:y -0.3 .
+em:omics_lipidomics em:x 9.78 ; em:y -0.3 .
+em:omics_adductomics em:x 10.6 ; em:y -0.3 .
+em:assess_external_exposome em:x 5.0 ; em:y 9.6 .
+em:assess_internal_exposome em:x 7.0 ; em:y 9.9 .
+em:sampler_individual em:x 4.0 ; em:y 9.0 .
+em:sampler_wearable_silicone em:x 4.0 ; em:y 10.2 .
+em:mode_active_sampling em:x 3.0 ; em:y 9.0 .
+em:mode_passive_sampling em:x 3.0 ; em:y 10.2 .
+em:assess_biomonitoring em:x 8.8 ; em:y 11.1 .
+em:matrix_blood em:x 7.2 ; em:y 12.5 .
+em:matrix_urine em:x 8.0 ; em:y 12.5 .
+em:matrix_milk em:x 8.8 ; em:y 12.5 .
+em:matrix_saliva em:x 9.6 ; em:y 12.5 .
+em:matrix_hair em:x 10.4 ; em:y 12.5 .
+em:method_hrms_nontargeted em:x 6.0 ; em:y 10.9 .
+em:method_hrms_targeted em:x 6.0 ; em:y 12.0 .
