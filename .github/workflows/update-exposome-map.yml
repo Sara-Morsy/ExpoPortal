@@ -1,0 +1,45 @@
+name: Update exposome map
+
+# Regenerates the files that are built from the Turtle files of the exposome
+# map (see the Makefile) and commits them.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blackboard/exposome_map/*.ttl'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-exposome-map
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends make python3-rdflib librsvg2-bin
+
+      - name: Rebuild the generated files
+        run: make -B
+
+      - name: Commit the changes
+        run: |
+          git add --all blackboard/exposome_map index.html
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --message "Update the files generated from the exposome map"
+          git pull --rebase
+          git push
