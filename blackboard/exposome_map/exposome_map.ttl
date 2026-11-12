@@ -149,6 +149,8 @@ em:curatorNoMatch a owl:ObjectProperty ;
     rdfs:label "manual curator no match"@en ;
     em:evidenceType obo:ECO_0000305 ;   # curator inference used in manual assertion
     rdfs:comment "Ontology term on ExpoPortal that a curator rejected for this node. It overrules a label match with the same term: match_ontology.py keeps these and does not add that label match again."@en .
+em:smiles a owl:DatatypeProperty ; rdfs:label "SMILES"@en ;
+    rdfs:comment "SMILES line notation of the chemical structure of a ChEBI term. Looked up on Wikidata by match_ontology.py (isomeric SMILES if there is one, else canonical SMILES), or written by hand."@en .
 em:inOntology a owl:DatatypeProperty ; rdfs:label "in ontology (ExpoPortal acronym)"@en .
 
 em:ink a owl:DatatypeProperty ; rdfs:label "ink colour on the board"@en .

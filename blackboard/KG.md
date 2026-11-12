@@ -148,6 +148,30 @@ Added on 2026-11-12.
 - **In the page.** The popup lists curator matches first, marked "chosen by a
   curator"; the others are marked "matched on label".
 
+## Chemical structures
+
+Added on 2026-11-12.
+
+- **Which nodes.** A node with a ChEBI term as curator match or label match,
+  for example 6PPD (CHEBI:747835).
+- **SMILES.** `match_ontology.py` looks up the ChEBI identifier (P683) on
+  [Wikidata](https://www.wikidata.org) and takes the isomeric SMILES (P2017)
+  if there is one, else the canonical SMILES (P233). It is stored on the ChEBI
+  term as `em:smiles`, with the Wikidata item as `rdfs:seeAlso`, at the end of
+  `exposome_map_mappings.ttl`.
+- **Updating.** `make match` looks up the structures too. `make structures`
+  looks up only the structures and leaves the label matches as they are; it
+  takes a few seconds. Neither runs in the GitHub Action.
+- **By hand.** An `em:smiles` written above the marker line is used instead of
+  the one from Wikidata, and is kept.
+- **In the page.** The popup shows the 2D structure under the ChEBI term. The
+  image is drawn by [CDK Depict](https://cdkdepict.toolforge.org/) from the
+  SMILES. It is not stored in the page: the browser of the reader asks CDK
+  Depict for it when the popup opens.
+- **Result.** 5 of the 6 ChEBI terms have a structure: 6PPD, 6PPD-Q,
+  α-pinene, ozone and hydroxyl. "antioxidant" (CHEBI:22586) is a role and has
+  no structure.
+
 ## Choices to check
 
 - **Links from AOP knowledge.** Seven links are not on the board: ROS pathway

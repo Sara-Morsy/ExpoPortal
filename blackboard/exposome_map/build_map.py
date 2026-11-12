@@ -14,6 +14,9 @@ If exposome_map_mappings.ttl exists it is read as part of the graph. Its
 em:curatorMatch links (written by hand) and em:labelMatch links (written by
 match_ontology.py) are the ontology terms shown in the page, curator matches first.
 A label match that a curator rejected with em:curatorNoMatch is not shown.
+A term with a SMILES (em:smiles, for ChEBI terms) gets a 2D structure in the
+popup. The image is not in the page: the browser asks CDK Depict for it when
+the popup opens.
 
 Requires rdflib (Debian: python3-rdflib).
 
@@ -39,6 +42,7 @@ from rdflib.namespace import SKOS, OWL
 
 EM = Namespace("https://example.org/exposome-map/")
 PORTAL = "https://expoportal.biohackeu.bigcat-bioinformatics.org"
+DEPICT = "https://cdkdepict.toolforge.org/depict/cow/svg?abbr=off&hdisp=bridgehead&showtitle=false&zoom=1.6&annotate=none&smi="
 
 # ---------------------------------------------------------------- model
 
@@ -53,7 +57,8 @@ def matches(g, n):
     curated = set(g.objects(n, EM.curatorMatch))
     rejected = set(g.objects(n, EM.curatorNoMatch))
     terms = [{"iri": str(m), "label": str(min(g.objects(m, RDFS.label), default=local(m))),
-              "ontologies": sorted(str(a) for a in g.objects(m, EM.inOntology)), "curated": m in curated}
+              "ontologies": sorted(str(a) for a in g.objects(m, EM.inOntology)), "curated": m in curated,
+              "smiles": str(min(g.objects(m, EM.smiles), default=""))}
              for m in curated | (set(g.objects(n, EM.labelMatch)) - rejected)]
     return sorted(terms, key=lambda m: (not m["curated"], -len(m["ontologies"]), m["iri"]))
 
@@ -525,6 +530,7 @@ box-shadow:0 6px 24px rgba(0,0,0,.25);font-size:14px}
 #pop .how{color:var(--muted);font-size:12px;font-weight:400;border:1px solid var(--line);border-radius:10px;padding:0 8px;margin-left:6px;white-space:nowrap}
 #pop .curated .how{color:var(--fg);background:var(--hl)}
 #pop .iri{color:var(--muted);font:12px ui-monospace,monospace;overflow-wrap:anywhere}
+#pop .struct{display:block;height:130px;width:100%;object-fit:scale-down;margin:4px 0;background:#fff;border:1px solid var(--line);border-radius:6px}
 #pop .links{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
 #pop .links a{color:var(--accent);border:1px solid var(--line);border-radius:10px;padding:0 8px;font-size:12px;text-decoration:none}
 #pop .links a:hover,#pop .links a:focus{background:var(--hl)}
@@ -555,7 +561,12 @@ function show(g){
       const a = el('a', '', x.ont); a.href = x.url; a.target = '_blank'; a.rel = 'noopener';
       a.title = 'Open in ' + x.ont + ' on ExpoPortal'; k.append(a);
     }
-    c.append(l, el('div', 'iri', m.iri), k); pop.append(c);
+    c.append(l, el('div', 'iri', m.iri));
+    if (m.structure) {       // 2D structure, drawn by CDK Depict from the SMILES
+      const s = el('img', 'struct'); s.src = m.structure; s.alt = '2D structure of ' + m.label;
+      s.title = 'SMILES: ' + m.smiles; c.append(s);
+    }
+    c.append(k); pop.append(c);
   }
   pop.hidden = false;
   const r = g.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight;
@@ -589,6 +600,8 @@ def write_html(classes, nodes, svg_path, path):
             "label": d["label"] + (f" ({', '.join(d['alt'])})" if d["alt"] else ""),
             "kind": classes[d["cls"]]["label"], "definition": d["definition"], "iri": d["iri"],
             "matches": [{"label": m["label"], "iri": m["iri"], "curated": m["curated"],
+                         **({"smiles": m["smiles"], "structure": DEPICT + quote(m["smiles"], safe="")}
+                            if m["smiles"] else {}),
                          "links": [{"ont": a, "url": f"{PORTAL}/ontologies/{a}?p=classes&conceptid={quote(m['iri'], safe='')}"}
                                    for a in m["ontologies"]]} for m in d["matches"]],
         }

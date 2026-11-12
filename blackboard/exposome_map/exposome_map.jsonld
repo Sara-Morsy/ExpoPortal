@@ -1744,6 +1744,15 @@
       "label": "site of"
     },
     {
+      "@id": "em:smiles",
+      "@type": "owl:DatatypeProperty",
+      "label": "SMILES",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "SMILES line notation of the chemical structure of a ChEBI term. Looked up on Wikidata by match_ontology.py (isomeric SMILES if there is one, else canonical SMILES), or written by hand."
+      }
+    },
+    {
       "@id": "em:source_anthropogenic",
       "@type": "em:Source",
       "definition": "Emissions caused by human activity.",
@@ -1925,34 +1934,54 @@
     },
     {
       "@id": "http://purl.obolibrary.org/obo/CHEBI_233238",
-      "rdfs:label": "6PPD-Q"
+      "em:smiles": "CC(CC(C)C)NC1=CC(=O)C(=CC1=O)NC2=CC=CC=C2",
+      "rdfs:label": "6PPD-Q",
+      "rdfs:seeAlso": {
+        "@id": "http://www.wikidata.org/entity/Q122709782"
+      }
     },
     {
       "@id": "http://purl.obolibrary.org/obo/CHEBI_25812",
+      "em:smiles": "[O-][O+]=O",
       "inOntology": [
         "ECTO",
         "EFO",
         "ENVO"
       ],
-      "rdfs:label": "ozone"
+      "rdfs:label": "ozone",
+      "rdfs:seeAlso": {
+        "@id": "http://www.wikidata.org/entity/Q36933"
+      }
     },
     {
       "@id": "http://purl.obolibrary.org/obo/CHEBI_29191",
+      "em:smiles": "[OH]",
       "inOntology": [
         "OBI",
         "ONE",
         "TXPO"
       ],
-      "rdfs:label": "hydroxyl"
+      "rdfs:label": "hydroxyl",
+      "rdfs:seeAlso": {
+        "@id": "http://www.wikidata.org/entity/Q427071"
+      }
     },
     {
       "@id": "http://purl.obolibrary.org/obo/CHEBI_36740",
+      "em:smiles": "CC1=CCC2CC1C2(C)C",
       "inOntology": "ECTO",
-      "rdfs:label": "alpha-pinene"
+      "rdfs:label": "alpha-pinene",
+      "rdfs:seeAlso": {
+        "@id": "http://www.wikidata.org/entity/Q27104380"
+      }
     },
     {
       "@id": "http://purl.obolibrary.org/obo/CHEBI_747835",
-      "rdfs:label": "6PPD"
+      "em:smiles": "CC(C)CC(C)NC1=CC=C(C=C1)NC2=CC=CC=C2",
+      "rdfs:label": "6PPD",
+      "rdfs:seeAlso": {
+        "@id": "http://www.wikidata.org/entity/Q27279957"
+      }
     },
     {
       "@id": "http://purl.obolibrary.org/obo/CHMO_0002881",

@@ -17,7 +17,9 @@ edit those by hand.
 - **Ontology terms.** `make match` looks up the node labels on ExpoPortal and
   writes the label matches in `exposome_map_mappings.ttl` again. Matches made
   or rejected by hand (`em:curatorMatch`, `em:curatorNoMatch`) go above the
-  marker line in that file; that part is always kept. Lines changed by hand below the marker line are lost. The
+  marker line in that file; that part is always kept. `make match` also gets
+  the SMILES of the ChEBI terms from Wikidata, for the 2D structures in the
+  popup; `make structures` does only that. Lines changed by hand below the marker line are lost. The
   GitHub Action never runs `make match`.
 
 See [blackboard/KG.md](blackboard/KG.md) for how the map is modelled.
