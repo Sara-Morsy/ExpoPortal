@@ -95,7 +95,6 @@ em:ke_ros_pathway em:labelMatch
     <http://purl.obolibrary.org/obo/MP_0003674> ,
     <http://www.ebi.ac.uk/efo/EFO_1001905> .
 em:ke_signalling_pathways em:labelMatch
-    <http://purl.obolibrary.org/obo/GO_0007165> ,
     <http://purl.obolibrary.org/obo/PW_0000003> ,
     <http://purl.obolibrary.org/obo/TXPO_0000609> .
 em:matrix_blood em:labelMatch
