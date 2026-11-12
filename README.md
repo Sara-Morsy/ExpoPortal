@@ -16,8 +16,8 @@ edit those by hand.
   4.3 or later and the Debian packages `python3-rdflib` and `librsvg2-bin`.
 - **Ontology terms.** `make match` looks up the node labels on ExpoPortal and
   writes the label matches in `exposome_map_mappings.ttl` again. Matches made
-  by hand (`em:curatorMatch`) go above the marker line in that file; that part
-  is always kept. Lines changed by hand below the marker line are lost. The
+  or rejected by hand (`em:curatorMatch`, `em:curatorNoMatch`) go above the
+  marker line in that file; that part is always kept. Lines changed by hand below the marker line are lost. The
   GitHub Action never runs `make match`.
 
 See [blackboard/KG.md](blackboard/KG.md) for how the map is modelled.

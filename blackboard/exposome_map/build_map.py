@@ -13,6 +13,7 @@ Writes, next to the Turtle file:
 If exposome_map_mappings.ttl exists it is read as part of the graph. Its
 em:curatorMatch links (written by hand) and em:labelMatch links (written by
 match_ontology.py) are the ontology terms shown in the page, curator matches first.
+A label match that a curator rejected with em:curatorNoMatch is not shown.
 
 Requires rdflib (Debian: python3-rdflib).
 
@@ -47,11 +48,13 @@ def local(iri):
 
 
 def matches(g, n):
-    """Ontology terms of a node: curator matches first, then the label matches that no curator chose."""
+    """Ontology terms of a node: curator matches first, then the label matches that no curator
+    chose. A label match that a curator rejected (em:curatorNoMatch) is left out."""
     curated = set(g.objects(n, EM.curatorMatch))
+    rejected = set(g.objects(n, EM.curatorNoMatch))
     terms = [{"iri": str(m), "label": str(min(g.objects(m, RDFS.label), default=local(m))),
               "ontologies": sorted(str(a) for a in g.objects(m, EM.inOntology)), "curated": m in curated}
-             for m in curated | set(g.objects(n, EM.labelMatch))]
+             for m in curated | (set(g.objects(n, EM.labelMatch)) - rejected)]
     return sorted(terms, key=lambda m: (not m["curated"], -len(m["ontologies"]), m["iri"]))
 
 

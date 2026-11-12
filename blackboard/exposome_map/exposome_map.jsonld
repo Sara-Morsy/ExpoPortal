@@ -596,6 +596,18 @@
       }
     },
     {
+      "@id": "em:curatorNoMatch",
+      "@type": "owl:ObjectProperty",
+      "em:evidenceType": {
+        "@id": "http://purl.obolibrary.org/obo/ECO_0000305"
+      },
+      "label": "manual curator no match",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Ontology term on ExpoPortal that a curator rejected for this node. It overrules a label match with the same term: match_ontology.py keeps these and does not add that label match again."
+      }
+    },
+    {
       "@id": "em:emission_non_exhaust",
       "@type": "em:Emission",
       "altLabel": "non-tailpipe emissions",
