@@ -340,7 +340,7 @@ em:group_biological_response a em:ProcessGroup ;
     skos:definition "Biological processes triggered in the lung by the exposure, from molecular key events to adverse outcomes."@en ;
     em:ink "orange" ; em:board 1 ;
     em:inWorkflow em:wf_biogenic , em:wf_anthropogenic ;
-    em:hasPart em:ke_ros_pathway , em:ke_nfkb , em:ke_catalase ,
+    em:hasPart em:ke_ros_pathway , em:ke_nfkb , em:hasPart em:ke_ros_pathway, em:ke_catalase ,
         em:ke_signalling_pathways , em:ke_erk_dependent , em:ke_erk_independent ,
         em:ke_allergic_response , em:ke_macrophages , em:ke_eosinophils ,
         em:ke_inflammation , em:ke_emt , em:ke_unjamming_transition ,
@@ -352,7 +352,7 @@ em:ke_ros_pathway a em:KeyEvent ;
     skos:altLabel "reactive oxygen species pathway"@en , "oxidative stress"@en ;
     skos:definition "Formation of reactive oxygen species and the cellular response to them."@en ;
     em:ink "orange" ; em:board 1 ; em:x 7.0 ; em:y 1.4 ;
-    em:leadsToAOP em:ke_nfkb .
+    em:leadsToAOP em:ke_nfkb , em:ke_nrf2 .
 
 em:ke_nfkb a em:KeyEvent ;
     rdfs:label "NF-κB"@en ;
@@ -362,6 +362,14 @@ em:ke_nfkb a em:KeyEvent ;
     em:ink "orange" ; em:board 1 ; em:x 7.0 ; em:y 2.6 ;
     skos:broader em:ke_signalling_pathways ;
     em:leadsToAOP em:ke_inflammation .
+
+em:ke_nrf2 a em:KeyEvent ;
+    rdfs:label "Nrf2 pathway"@en ;
+    skos:hiddenLabel "NRF2"@en , "NFE2L2"@en , "Nrf2 signalling"@en ;
+    skos:altLabel "Nrf2"@en , "Keap1-Nrf2 pathway"@en ;
+    skos:definition "Activation of the transcription factor Nrf2 (NFE2L2), a main regulator of antioxidant and detoxification gene expression in the response to oxidative stress."@en ;
+    em:ink "orange" ; em:board 1 ; em:x 8.0 ; em:y 2.1 ;
+    skos:broader em:ke_signalling_pathways .
 
 em:ke_catalase a em:KeyEvent ;
     rdfs:label "catalase"@en ;
