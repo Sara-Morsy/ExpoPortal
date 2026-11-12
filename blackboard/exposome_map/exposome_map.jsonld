@@ -497,7 +497,7 @@
       "@id": "em:chem_6ppd_quinone",
       "@type": "em:Stressor",
       "altLabel": "6PPD-quinone",
-      "curatorMatch": "http://purl.obolibrary.org/obo/CHEBI_25812",
+      "curatorMatch": "http://purl.obolibrary.org/obo/CHEBI_233238",
       "definition": "Transformation product of 6PPD formed by reaction with ozone.",
       "em:board": 2,
       "em:ink": "orange",
@@ -1925,16 +1925,17 @@
       "rdfs:label": "antioxidant"
     },
     {
+      "@id": "http://purl.obolibrary.org/obo/CHEBI_233238",
+      "rdfs:label": "6PPD-Q"
+    },
+    {
       "@id": "http://purl.obolibrary.org/obo/CHEBI_25812",
       "inOntology": [
         "ECTO",
         "EFO",
         "ENVO"
       ],
-      "rdfs:label": [
-        "6PPD-Q",
-        "ozone"
-      ]
+      "rdfs:label": "ozone"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/CHEBI_29191",
