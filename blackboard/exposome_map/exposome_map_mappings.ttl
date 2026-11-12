@@ -23,9 +23,9 @@
 # =====================================================================
 
 em:chem_6ppd_quinone em:curatorMatch
- <http://purl.obolibrary.org/obo/CHEBI_25812> .
+ <http://purl.obolibrary.org/obo/CHEBI_233238> .
 
-<http://purl.obolibrary.org/obo/CHEBI_25812> rdfs:label "6PPD-Q" .
+<http://purl.obolibrary.org/obo/CHEBI_233238> rdfs:label "6PPD-Q" .
 
 em:chem_6ppd em:curatorMatch
  <http://purl.obolibrary.org/obo/CHEBI_747835> .
