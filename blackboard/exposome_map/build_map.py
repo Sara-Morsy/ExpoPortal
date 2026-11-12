@@ -10,10 +10,11 @@ Writes, next to the Turtle file:
     exposome_map.png      the SVG as an image, at twice its size (needs rsvg-convert)
     exposome_map.html     the SVG in a web page; hovering a node shows its ontology terms
 
-If exposome_map_mappings.ttl exists (written by match_ontology.py) it is read as
-part of the graph: its em:labelMatch links are the ontology terms shown in the page.
+If exposome_map_mappings.ttl exists it is read as part of the graph. Its
+em:curatorMatch links (written by hand) and em:labelMatch links (written by
+match_ontology.py) are the ontology terms shown in the page, curator matches first.
 
-Requires rdflib (pip install rdflib).
+Requires rdflib (Debian: python3-rdflib).
 
 Every node in the SVG is a group with id = the local name of its IRI
 (e.g. id="chem_6ppd"), a data-iri attribute and a <path class="node-box"> outline,
@@ -43,6 +44,15 @@ PORTAL = "https://expoportal.biohackeu.bigcat-bioinformatics.org"
 
 def local(iri):
     return str(iri).rsplit("/", 1)[-1].rsplit("#", 1)[-1]
+
+
+def matches(g, n):
+    """Ontology terms of a node: curator matches first, then the label matches that no curator chose."""
+    curated = set(g.objects(n, EM.curatorMatch))
+    terms = [{"iri": str(m), "label": str(min(g.objects(m, RDFS.label), default=local(m))),
+              "ontologies": sorted(str(a) for a in g.objects(m, EM.inOntology)), "curated": m in curated}
+             for m in curated | set(g.objects(n, EM.labelMatch))]
+    return sorted(terms, key=lambda m: (not m["curated"], -len(m["ontologies"]), m["iri"]))
 
 
 def load(ttl):
@@ -75,11 +85,7 @@ def load(ttl):
                 "y": float(g.value(n, EM.y)) if g.value(n, EM.y) is not None else None,
                 "workflows": sorted(local(w) for w in g.objects(n, EM.inWorkflow)),
                 "link": str(link),
-                "matches": sorted(
-                    ({"iri": str(m), "label": str(g.value(m, RDFS.label) or local(m)),
-                      "ontologies": sorted(str(a) for a in g.objects(m, EM.inOntology))}
-                     for m in g.objects(n, EM.labelMatch)),
-                    key=lambda m: (-len(m["ontologies"]), m["iri"])),
+                "matches": matches(g, n),
             }
     groups = {}  # group node -> member nodes
     for s, o in g.subject_objects(EM.hasPart):
@@ -109,6 +115,14 @@ def write_jsonld(g, path):
     context["hiddenLabel"] = {"@id": "skos:hiddenLabel", "@language": "en"}
     context["inOntology"] = "em:inOntology"
     data = json.loads(g.serialize(format="json-ld", context=context, auto_compact=True))
+    # rdflib gives the nodes and the values in a different order on every run; sort them,
+    # so that the file only changes when the graph changes
+    order = lambda v: json.dumps(v, sort_keys=True, ensure_ascii=False)
+    for node in data["@graph"]:
+        for key, value in node.items():
+            if isinstance(value, list):
+                value.sort(key=order)
+    data["@graph"].sort(key=lambda node: (node.get("@id", ""), order(node)))
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
 
 
@@ -505,6 +519,8 @@ box-shadow:0 6px 24px rgba(0,0,0,.25);font-size:14px}
 #pop h4{margin:8px 0 2px;font-size:13px}
 #pop .cand{padding:6px 0;border-top:1px solid var(--line)}
 #pop .lbl{font-weight:600}
+#pop .how{color:var(--muted);font-size:12px;font-weight:400;border:1px solid var(--line);border-radius:10px;padding:0 8px;margin-left:6px;white-space:nowrap}
+#pop .curated .how{color:var(--fg);background:var(--hl)}
 #pop .iri{color:var(--muted);font:12px ui-monospace,monospace;overflow-wrap:anywhere}
 #pop .links{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
 #pop .links a{color:var(--accent);border:1px solid var(--line);border-radius:10px;padding:0 8px;font-size:12px;text-decoration:none}
@@ -528,14 +544,15 @@ function show(g){
   if (d.definition) pop.append(el('div', 'def', d.definition));
   pop.append(el('div', 'id', d.iri));
   const n = d.matches.length;
-  pop.append(el('h4', '', n + ' ontology term' + (n > 1 ? 's' : '') + ' on ExpoPortal (matched on label)'));
+  pop.append(el('h4', '', n + ' ontology term' + (n > 1 ? 's' : '') + ' on ExpoPortal'));
   for (const m of d.matches) {
-    const c = el('div', 'cand'), k = el('div', 'links');
+    const c = el('div', m.curated ? 'cand curated' : 'cand'), k = el('div', 'links'), l = el('div', 'lbl', m.label);
+    l.append(el('span', 'how', m.curated ? 'chosen by a curator' : 'matched on label'));
     for (const x of m.links) {
       const a = el('a', '', x.ont); a.href = x.url; a.target = '_blank'; a.rel = 'noopener';
       a.title = 'Open in ' + x.ont + ' on ExpoPortal'; k.append(a);
     }
-    c.append(el('div', 'lbl', m.label), el('div', 'iri', m.iri), k); pop.append(c);
+    c.append(l, el('div', 'iri', m.iri), k); pop.append(c);
   }
   pop.hidden = false;
   const r = g.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight;
@@ -568,7 +585,7 @@ def write_html(classes, nodes, svg_path, path):
         data[d["id"]] = {
             "label": d["label"] + (f" ({', '.join(d['alt'])})" if d["alt"] else ""),
             "kind": classes[d["cls"]]["label"], "definition": d["definition"], "iri": d["iri"],
-            "matches": [{"label": m["label"], "iri": m["iri"],
+            "matches": [{"label": m["label"], "iri": m["iri"], "curated": m["curated"],
                          "links": [{"ont": a, "url": f"{PORTAL}/ontologies/{a}?p=classes&conceptid={quote(m['iri'], safe='')}"}
                                    for a in m["ontologies"]]} for m in d["matches"]],
         }

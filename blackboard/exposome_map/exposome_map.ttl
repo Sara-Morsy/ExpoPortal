@@ -5,6 +5,7 @@
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix obo:  <http://purl.obolibrary.org/obo/> .
 
 # =====================================================================
 #  Exposome flow map -- knowledge graph of the blackboard drawing
@@ -125,9 +126,25 @@ em:usesMatrix a owl:ObjectProperty ; rdfs:label "samples"@en .
 em:samplingMode a owl:ObjectProperty ; rdfs:label "sampling mode"@en .
 em:inWorkflow a owl:ObjectProperty ; rdfs:label "in workflow"@en .
 
-em:labelMatch a owl:ObjectProperty ; rdfs:subPropertyOf skos:mappingRelation ;
+# Matches between a map node and an ontology term on ExpoPortal. The kind of
+# evidence behind a match is a term of the Evidence and Conclusion Ontology
+# (ECO). ECO has classes only, no properties, so the match properties are
+# defined here and point to their ECO class with em:evidenceType.
+# The matches themselves are in exposome_map_mappings.ttl.
+em:evidenceType a owl:AnnotationProperty ; rdfs:label "evidence type"@en ;
+    rdfs:comment "ECO class for the kind of evidence behind the statements made with this property."@en .
+
+em:automaticMatch a owl:ObjectProperty ; rdfs:subPropertyOf skos:mappingRelation ;
+    rdfs:label "automatic match"@en ;
+    em:evidenceType obo:ECO_0000501 ;   # evidence used in automatic assertion
+    rdfs:comment "Ontology term on ExpoPortal that was linked to this node by a program, without human review."@en .
+em:labelMatch a owl:ObjectProperty ; rdfs:subPropertyOf em:automaticMatch ;
     rdfs:label "label match"@en ;
-    rdfs:comment "Ontology term on ExpoPortal whose label or exact synonym equals a label of this node (ignoring case). Found automatically; not curated. The matches are in exposome_map_mappings.ttl."@en .
+    rdfs:comment "Ontology term on ExpoPortal whose label or exact synonym equals a label of this node (ignoring case). Found automatically by match_ontology.py; not curated."@en .
+em:curatorMatch a owl:ObjectProperty ; rdfs:subPropertyOf skos:mappingRelation ;
+    rdfs:label "manual curator match"@en ;
+    em:evidenceType obo:ECO_0000305 ;   # curator inference used in manual assertion
+    rdfs:comment "Ontology term on ExpoPortal that a curator chose for this node. Added by hand; match_ontology.py keeps these."@en .
 em:inOntology a owl:DatatypeProperty ; rdfs:label "in ontology (ExpoPortal acronym)"@en .
 
 em:ink a owl:DatatypeProperty ; rdfs:label "ink colour on the board"@en .

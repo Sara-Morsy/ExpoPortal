@@ -20,6 +20,10 @@
       "@id": "em:contains",
       "@type": "@id"
     },
+    "curatorMatch": {
+      "@id": "em:curatorMatch",
+      "@type": "@id"
+    },
     "dcterms": "http://purl.org/dc/terms/",
     "definition": {
       "@id": "skos:definition",
@@ -126,74 +130,21 @@
   },
   "@graph": [
     {
-      "@id": "http://purl.obolibrary.org/obo/TXPO_0000332",
-      "inOntology": "TXPO",
-      "rdfs:label": "genome"
-    },
-    {
-      "@id": "em:hasPart",
-      "@type": "owl:ObjectProperty",
-      "label": "has part",
-      "rdfs:comment": {
-        "@language": "en",
-        "@value": "Membership of a process group; drawn as a bracket, not as arrows."
+      "@id": "em:AdverseOutcome",
+      "@type": "owl:Class",
+      "definition": "Health effect at organ or organism level (adverse outcome in adverse outcome pathway terms).",
+      "em:stageOrder": 8,
+      "label": "adverse outcome",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
       }
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/ExO_0000077",
-      "inOntology": "EXO",
-      "rdfs:label": "biological response"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/LFID_0004426",
-      "inOntology": "LSFO",
-      "rdfs:label": "coho salmon"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/OGG_0000000001",
-      "inOntology": [
-        "CIDO",
-        "OHMI",
-        "OHPI",
-        "OVAE"
-      ],
-      "rdfs:label": "genome"
-    },
-    {
-      "@id": "em:source_biogenic",
-      "@type": "em:Source",
-      "definition": "Emissions of natural, biological origin, such as from vegetation.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "0.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "1.0"
-      },
-      "emits": "em:chem_alpha_pinene",
-      "inWorkflow": "em:wf_biogenic",
-      "label": "biogenic",
-      "labelMatch": "http://sweetontology.net/stateBiological/Biogenic"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/MP_0003674",
-      "inOntology": "BMONT",
-      "rdfs:label": "oxidative stress"
-    },
-    {
-      "@id": "http://sweetontology.net/matrElementalMolecule/Ozone",
-      "inOntology": "SWEET",
-      "rdfs:label": "ozone"
-    },
-    {
-      "@id": "em:TransformationProcess",
+      "@id": "em:AnalyticalMethod",
       "@type": "owl:Class",
-      "definition": "Environmental reaction that converts a chemical into a transformation product.",
-      "em:stageOrder": 4,
-      "label": "transformation process",
+      "definition": "Instrumental method used to analyse samples.",
+      "em:stageOrder": 11,
+      "label": "analytical method",
       "rdfs:subClassOf": {
         "@id": "em:Node"
       }
@@ -209,22 +160,6 @@
       }
     },
     {
-      "@id": "em:y",
-      "@type": "owl:DatatypeProperty",
-      "label": "layout y (grid units)"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/HP_0002099",
-      "inOntology": [
-        "CIDO",
-        "EFO",
-        "GENEPIO",
-        "HPO",
-        "MONDO"
-      ],
-      "rdfs:label": "Asthma"
-    },
-    {
       "@id": "em:Emission",
       "@type": "owl:Class",
       "definition": "Release of material from a source into the environment.",
@@ -235,78 +170,194 @@
       }
     },
     {
-      "@id": "em:mod_sex_gender",
-      "@type": "em:Modifier",
-      "altLabel": "sex",
-      "definition": "Sex or gender of the individual.",
+      "@id": "em:ExposomeAssessment",
+      "@type": "owl:Class",
+      "definition": "Approach to measure the external or internal exposome.",
+      "em:stageOrder": 11,
+      "label": "exposome assessment",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:ExposureRoute",
+      "@type": "owl:Class",
+      "definition": "Way a stressor enters the organism.",
+      "em:stageOrder": 5,
+      "label": "exposure route",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:KeyEvent",
+      "@type": "owl:Class",
+      "definition": "Measurable biological change between exposure and adverse outcome (key event in adverse outcome pathway terms).",
+      "em:stageOrder": 7,
+      "label": "biological process (key event)",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:Matrix",
+      "@type": "owl:Class",
+      "definition": "Body fluid or tissue sampled in human biomonitoring.",
+      "em:stageOrder": 11,
+      "label": "biomonitoring matrix",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:Modifier",
+      "@type": "owl:Class",
+      "definition": "Characteristic of the individual that changes the biological response to an exposure.",
+      "em:stageOrder": 9,
+      "label": "modifier",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:Node",
+      "@type": "owl:Class",
+      "label": "map node"
+    },
+    {
+      "@id": "em:OmicsMethod",
+      "@type": "owl:Class",
+      "definition": "Omics technology with which a biological process can be measured.",
+      "em:stageOrder": 10,
+      "label": "omics method",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:Organ",
+      "@type": "owl:Class",
+      "definition": "Organ or tissue where the stressor acts.",
+      "em:stageOrder": 6,
+      "label": "organ",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:ProcessGroup",
+      "@type": "owl:Class",
+      "definition": "Group of biological processes, drawn as a bracket on the board.",
+      "em:stageOrder": 7,
+      "label": "process group",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:Receptor",
+      "@type": "owl:Class",
+      "definition": "Organism or population group that is exposed.",
+      "em:stageOrder": 6,
+      "label": "receptor organism / population group",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:SamplingMethod",
+      "@type": "owl:Class",
+      "definition": "Sampler or sampling mode used to measure external exposure.",
+      "em:stageOrder": 11,
+      "label": "sampling method",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:Source",
+      "@type": "owl:Class",
+      "definition": "Origin of an emission or chemical, natural or man-made.",
+      "em:stageOrder": 1,
+      "label": "source",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:Stressor",
+      "@type": "owl:Class",
+      "definition": "Chemical or particle that an organism is exposed to (stressor in adverse outcome pathway terms).",
+      "em:stageOrder": 3,
+      "label": "chemical / stressor",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:TransformationProcess",
+      "@type": "owl:Class",
+      "definition": "Environmental reaction that converts a chemical into a transformation product.",
+      "em:stageOrder": 4,
+      "label": "transformation process",
+      "rdfs:subClassOf": {
+        "@id": "em:Node"
+      }
+    },
+    {
+      "@id": "em:Workflow",
+      "@type": "owl:Class",
+      "definition": "A path through the map, from a source to the biological response.",
+      "label": "workflow"
+    },
+    {
+      "@id": "em:ao_asthma",
+      "@type": "em:AdverseOutcome",
+      "definition": "Chronic inflammatory disease of the airways.",
       "em:board": 1,
-      "em:ink": "orange",
+      "em:ink": "purple",
       "em:x": {
         "@type": "xsd:decimal",
-        "@value": "11.9"
+        "@value": "10.3"
       },
       "em:y": {
         "@type": "xsd:decimal",
-        "@value": "2.5"
+        "@value": "5.6"
       },
-      "label": "gender",
+      "label": "asthma",
       "labelMatch": [
-        "http://purl.obolibrary.org/obo/NCIT_C17357",
-        "http://xmlns.com/foaf/0.1/gender",
-        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C17357",
-        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C28421",
-        "http://purl.obolibrary.org/obo/AOPO_0000241",
-        "http://purl.obolibrary.org/obo/ExO_0000110",
-        "http://purl.obolibrary.org/obo/GECKO_0000060",
-        "http://purl.obolibrary.org/obo/NCIT_C28421"
-      ],
-      "modifies": "em:group_biological_response"
+        "http://purl.obolibrary.org/obo/DOID_2841",
+        "http://purl.obolibrary.org/obo/HP_0002099",
+        "http://purl.obolibrary.org/obo/MONDO_0004979",
+        "https://bioportal.bioontology.org/ontologies/DREDTO#asthma",
+        "https://saref.etsi.org/saref4ehaw/Asthma"
+      ]
     },
     {
-      "@id": "http://www.ebi.ac.uk/efo/EFO_0022598",
-      "inOntology": "EFO",
-      "rdfs:label": "breast milk"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/MONDO_0002771",
-      "inOntology": [
-        "EFO",
-        "MONDO"
-      ],
-      "rdfs:label": "pulmonary fibrosis"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/CL_0000771",
-      "inOntology": [
-        "CL",
-        "DOID",
-        "EFO",
-        "HPO",
-        "MAXO",
-        "MONDO",
-        "OBA",
-        "OBI",
-        "TXPO"
-      ],
-      "rdfs:label": "eosinophil"
-    },
-    {
-      "@id": "http://edamontology.org/topic_3172",
-      "inOntology": "ONS",
-      "rdfs:label": "Metabolomics"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/DOID_2841",
-      "inOntology": [
-        "BMONT",
-        "DOID"
-      ],
-      "rdfs:label": "asthma"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/AOPO_0000241",
-      "inOntology": "AOPO",
-      "rdfs:label": "sex"
+      "@id": "em:ao_fibrosis",
+      "@type": "em:AdverseOutcome",
+      "altLabel": "lung fibrosis",
+      "definition": "Scarring of lung tissue by excess connective tissue.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "10.3"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "3.0"
+      },
+      "hiddenLabel": "pulmonary fibrosis",
+      "label": "fibrosis",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/DOID_3770",
+        "http://purl.obolibrary.org/obo/HP_0002206",
+        "http://purl.obolibrary.org/obo/MONDO_0002771",
+        "http://purl.obolibrary.org/obo/TXPO_0000219",
+        "http://www.ebi.ac.uk/efo/EFO_0006890",
+        "http://www.ebi.ac.uk/efo/EFO_0009448"
+      ]
     },
     {
       "@id": "em:assess_biomonitoring",
@@ -327,36 +378,11 @@
       "label": "biomonitoring",
       "usesMatrix": [
         "em:matrix_blood",
-        "em:matrix_urine",
+        "em:matrix_hair",
         "em:matrix_milk",
         "em:matrix_saliva",
-        "em:matrix_hair"
+        "em:matrix_urine"
       ]
-    },
-    {
-      "@id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C17357",
-      "inOntology": "ROO",
-      "rdfs:label": "Gender"
-    },
-    {
-      "@id": "em:AdverseOutcome",
-      "@type": "owl:Class",
-      "definition": "Health effect at organ or organism level (adverse outcome in adverse outcome pathway terms).",
-      "em:stageOrder": 8,
-      "label": "adverse outcome",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "em:AnalyticalMethod",
-      "@type": "owl:Class",
-      "definition": "Instrumental method used to analyse samples.",
-      "em:stageOrder": 11,
-      "label": "analytical method",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
     },
     {
       "@id": "em:assess_external_exposome",
@@ -384,21 +410,546 @@
       ]
     },
     {
-      "@id": "em:measures",
-      "@type": "owl:ObjectProperty",
-      "label": "measures"
+      "@id": "em:assess_internal_exposome",
+      "@type": "em:ExposomeAssessment",
+      "assessedBy": "em:assess_biomonitoring",
+      "characterises": "em:group_biological_response",
+      "definition": "Measurement of exposure and its effects inside the body.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "7.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "9.9"
+      },
+      "label": "internal exposome",
+      "usesMethod": [
+        "em:method_hrms_nontargeted",
+        "em:method_hrms_targeted"
+      ]
     },
     {
-      "@id": "http://sweetontology.net/stateBiological/Biogenic",
-      "inOntology": "SWEET",
-      "rdfs:label": "biogenic"
+      "@id": "em:assessedBy",
+      "@type": "owl:ObjectProperty",
+      "label": "assessed by"
+    },
+    {
+      "@id": "em:automaticMatch",
+      "@type": "owl:ObjectProperty",
+      "em:evidenceType": {
+        "@id": "http://purl.obolibrary.org/obo/ECO_0000501"
+      },
+      "label": "automatic match",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Ontology term on ExpoPortal that was linked to this node by a program, without human review."
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "skos:mappingRelation"
+      }
+    },
+    {
+      "@id": "em:board",
+      "@type": "owl:DatatypeProperty",
+      "label": "board number"
+    },
+    {
+      "@id": "em:characterises",
+      "@type": "owl:ObjectProperty",
+      "label": "characterises"
+    },
+    {
+      "@id": "em:chem_6ppd",
+      "@type": "em:Stressor",
+      "altLabel": "N-(1,3-dimethylbutyl)-N'-phenyl-p-phenylenediamine",
+      "definition": "Tire rubber additive that protects the rubber against ozone and oxidation.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "2.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "4.0"
+      },
+      "exposureVia": "em:route_inhalation",
+      "hasRole": [
+        "em:role_antioxidant",
+        "em:role_plasticizer"
+      ],
+      "inWorkflow": "em:wf_anthropogenic",
+      "inputOf": [
+        "em:proc_heterogeneous_oxidation",
+        "em:proc_ozonolysis"
+      ],
+      "label": "6PPD"
+    },
+    {
+      "@id": "em:chem_6ppd_quinone",
+      "@type": "em:Stressor",
+      "altLabel": "6PPD-quinone",
+      "curatorMatch": "http://purl.obolibrary.org/obo/CHEBI_25812",
+      "definition": "Transformation product of 6PPD formed by reaction with ozone.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "4.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "5.3"
+      },
+      "exposureVia": "em:route_inhalation",
+      "hiddenLabel": "6PPD quinone",
+      "inWorkflow": "em:wf_anthropogenic",
+      "label": "6PPD-Q",
+      "toxicTo": "em:receptor_coho_salmon"
+    },
+    {
+      "@id": "em:chem_alpha_pinene",
+      "@type": "em:Stressor",
+      "altLabel": "alpha-pinene",
+      "definition": "Monoterpene emitted by vegetation, mainly conifers.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "2.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "1.0"
+      },
+      "exposureVia": "em:route_inhalation",
+      "inWorkflow": "em:wf_biogenic",
+      "label": "α-pinene",
+      "labelMatch": "http://purl.obolibrary.org/obo/CHEBI_36740"
+    },
+    {
+      "@id": "em:chem_hydroxyl_radical",
+      "@type": "em:Stressor",
+      "altLabel": "hydroxyl radical",
+      "definition": "Atmospheric oxidant (hydroxyl radical).",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "2.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "6.5"
+      },
+      "hiddenLabel": "hydroxyl",
+      "inputOf": "em:proc_heterogeneous_oxidation",
+      "label": "•OH",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/CHEBI_29191",
+        "http://sweetontology.net/matrCompound/Hydroxyl"
+      ]
+    },
+    {
+      "@id": "em:chem_ozone",
+      "@type": "em:Stressor",
+      "definition": "Atmospheric oxidant (O3).",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "2.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "5.3"
+      },
+      "inputOf": "em:proc_ozonolysis",
+      "label": "ozone",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/CHEBI_25812",
+        "http://sweetontology.net/matrElementalMolecule/Ozone"
+      ]
+    },
+    {
+      "@id": "em:contains",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "label": "contains"
+    },
+    {
+      "@id": "em:curatorMatch",
+      "@type": "owl:ObjectProperty",
+      "em:evidenceType": {
+        "@id": "http://purl.obolibrary.org/obo/ECO_0000305"
+      },
+      "label": "manual curator match",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Ontology term on ExpoPortal that a curator chose for this node. Added by hand; match_ontology.py keeps these."
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "skos:mappingRelation"
+      }
+    },
+    {
+      "@id": "em:emission_non_exhaust",
+      "@type": "em:Emission",
+      "altLabel": "non-tailpipe emissions",
+      "definition": "Traffic emissions that do not come from the exhaust, such as tire, brake and road wear.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "0.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "5.3"
+      },
+      "label": "non-exhaust emissions"
+    },
+    {
+      "@id": "em:emission_tire_road_wear",
+      "@type": "em:Emission",
+      "broader": "em:emission_non_exhaust",
+      "definition": "Material released by abrasion between tire and road.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "1.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "5.3"
+      },
+      "emits": "em:particle_trwp",
+      "label": "tire-road wear emissions"
+    },
+    {
+      "@id": "em:emits",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "label": "emits"
+    },
+    {
+      "@id": "em:evidenceType",
+      "@type": "owl:AnnotationProperty",
+      "label": "evidence type",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "ECO class for the kind of evidence behind the statements made with this property."
+      }
+    },
+    {
+      "@id": "em:exposureVia",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "label": "exposure via"
+    },
+    {
+      "@id": "em:flow",
+      "@type": "owl:DatatypeProperty",
+      "label": "is part of the main flow"
+    },
+    {
+      "@id": "em:group_biological_response",
+      "@type": "em:ProcessGroup",
+      "definition": "Biological processes triggered in the lung by the exposure, from molecular key events to adverse outcomes.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "hasPart": [
+        "em:ao_asthma",
+        "em:ao_fibrosis",
+        "em:ke_allergic_response",
+        "em:ke_catalase",
+        "em:ke_emt",
+        "em:ke_eosinophils",
+        "em:ke_erk_dependent",
+        "em:ke_erk_independent",
+        "em:ke_inflammation",
+        "em:ke_macrophages",
+        "em:ke_nfkb",
+        "em:ke_ros_pathway",
+        "em:ke_signalling_pathways",
+        "em:ke_unjamming_transition"
+      ],
+      "inWorkflow": [
+        "em:wf_anthropogenic",
+        "em:wf_biogenic"
+      ],
+      "label": "biological response",
+      "labelMatch": "http://purl.obolibrary.org/obo/ExO_0000077"
+    },
+    {
+      "@id": "em:hasCharacteristic",
+      "@type": "owl:ObjectProperty",
+      "label": "has characteristic"
+    },
+    {
+      "@id": "em:hasOutput",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "label": "gives"
+    },
+    {
+      "@id": "em:hasPart",
+      "@type": "owl:ObjectProperty",
+      "label": "has part",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Membership of a process group; drawn as a bracket, not as arrows."
+      }
+    },
+    {
+      "@id": "em:hasRole",
+      "@type": "owl:ObjectProperty",
+      "label": "has role"
+    },
+    {
+      "@id": "em:inOntology",
+      "@type": "owl:DatatypeProperty",
+      "label": "in ontology (ExpoPortal acronym)"
+    },
+    {
+      "@id": "em:inWorkflow",
+      "@type": "owl:ObjectProperty",
+      "label": "in workflow"
+    },
+    {
+      "@id": "em:includes",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "label": "includes"
+    },
+    {
+      "@id": "em:inferred",
+      "@type": "owl:DatatypeProperty",
+      "label": "not drawn on the board"
+    },
+    {
+      "@id": "em:ink",
+      "@type": "owl:DatatypeProperty",
+      "label": "ink colour on the board"
+    },
+    {
+      "@id": "em:inputOf",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "label": "input of"
+    },
+    {
+      "@id": "em:ke_allergic_response",
+      "@type": "em:KeyEvent",
+      "altLabel": "allergic response",
+      "definition": "Immune reaction of the airways to an inhaled allergen.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "7.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "7.6"
+      },
+      "label": "allergy",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/HP_0012393",
+        "http://purl.obolibrary.org/obo/MONDO_0005271",
+        "http://purl.obolibrary.org/obo/OBI_1110049"
+      ],
+      "leadsTo": [
+        "em:ke_eosinophils",
+        "em:ke_macrophages"
+      ]
+    },
+    {
+      "@id": "em:ke_catalase",
+      "@type": "em:KeyEvent",
+      "definition": "Antioxidant enzyme that breaks down hydrogen peroxide; its level reflects the response to reactive oxygen species.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "8.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "1.4"
+      },
+      "label": "catalase",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/PR_000005061",
+        "http://purl.obolibrary.org/obo/VO_0011339"
+      ],
+      "modulates": "em:ke_ros_pathway"
+    },
+    {
+      "@id": "em:ke_emt",
+      "@type": "em:KeyEvent",
+      "altLabel": "EMT",
+      "definition": "Epithelial cells lose their epithelial character and take on a mesenchymal one. Listed under 'outcome' on the board; modelled here as a key event on the way to fibrosis.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "9.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "4.2"
+      },
+      "hiddenLabel": "epithelial to mesenchymal transition",
+      "label": "epithelial-mesenchymal transition",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/GO_0001837",
+        "http://purl.obolibrary.org/obo/MS_1000111"
+      ],
+      "leadsToAOP": "em:ao_fibrosis"
+    },
+    {
+      "@id": "em:ke_eosinophils",
+      "@type": "em:KeyEvent",
+      "altLabel": "eosinophil recruitment",
+      "definition": "Recruitment of eosinophils to the airways.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "8.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "8.2"
+      },
+      "hiddenLabel": "eosinophil",
+      "label": "eosinophils",
+      "labelMatch": "http://purl.obolibrary.org/obo/CL_0000771",
+      "leadsToAOP": "em:ke_inflammation"
+    },
+    {
+      "@id": "em:ke_erk_dependent",
+      "@type": "em:KeyEvent",
+      "altLabel": "ERK-dependent signalling",
+      "broader": "em:ke_signalling_pathways",
+      "definition": "Signalling that runs through the extracellular signal-regulated kinase (ERK).",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "7.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "5.0"
+      },
+      "label": "ERK-dependent",
+      "leadsTo": "em:ao_asthma"
+    },
+    {
+      "@id": "em:ke_erk_independent",
+      "@type": "em:KeyEvent",
+      "altLabel": "ERK-independent signalling",
+      "broader": "em:ke_signalling_pathways",
+      "definition": "Signalling that does not run through the extracellular signal-regulated kinase (ERK).",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "7.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "6.0"
+      },
+      "label": "ERK-independent",
+      "leadsTo": "em:ao_asthma"
+    },
+    {
+      "@id": "em:ke_inflammation",
+      "@type": "em:KeyEvent",
+      "definition": "Inflammatory response of the lung tissue.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "9.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "6.6"
+      },
+      "label": "inflammation",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/MPATH_212",
+        "http://purl.obolibrary.org/obo/MP_0001845",
+        "http://purl.obolibrary.org/obo/OHD_0010289",
+        "http://purl.obolibrary.org/obo/SYMP_0000061"
+      ],
+      "leadsToAOP": [
+        "em:ao_asthma",
+        "em:ke_emt"
+      ]
+    },
+    {
+      "@id": "em:ke_macrophages",
+      "@type": "em:KeyEvent",
+      "altLabel": "macrophage activation",
+      "definition": "Activation and recruitment of macrophages in the lung.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "8.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "7.0"
+      },
+      "hiddenLabel": "macrophage",
+      "label": "macrophages",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/CL_0000235",
+        "http://purl.obolibrary.org/obo/FBbt_00001685",
+        "http://purl.obolibrary.org/obo/GO_0042116"
+      ],
+      "leadsToAOP": "em:ke_inflammation"
+    },
+    {
+      "@id": "em:ke_nfkb",
+      "@type": "em:KeyEvent",
+      "altLabel": [
+        "NF-kappaB signalling",
+        "nf-kB"
+      ],
+      "broader": "em:ke_signalling_pathways",
+      "definition": "Activation of the transcription factor NF-kappaB, a central switch of inflammatory gene expression.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "7.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "2.6"
+      },
+      "hiddenLabel": "NF-kappaB",
+      "label": "NF-κB",
+      "labelMatch": "http://purl.obolibrary.org/obo/IMR_0000382",
+      "leadsToAOP": "em:ke_inflammation"
     },
     {
       "@id": "em:ke_ros_pathway",
       "@type": "em:KeyEvent",
       "altLabel": [
-        "reactive oxygen species pathway",
-        "oxidative stress"
+        "oxidative stress",
+        "reactive oxygen species pathway"
       ],
       "definition": "Formation of reactive oxygen species and the cellular response to them.",
       "em:board": 1,
@@ -421,210 +972,114 @@
       "leadsToAOP": "em:ke_nfkb"
     },
     {
-      "@id": "em:matrix_urine",
-      "@type": "em:Matrix",
-      "definition": "Urine as biomonitoring matrix.",
+      "@id": "em:ke_signalling_pathways",
+      "@type": "em:KeyEvent",
+      "definition": "Intracellular signalling cascades that pass the stress signal on to gene expression and cell behaviour.",
       "em:board": 1,
       "em:ink": "purple",
       "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "8.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "12.5"
-      },
-      "label": "urine",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/UBERON_0001088",
-        "http://purl.obolibrary.org/obo/UBERON_0001086"
-      ]
-    },
-    {
-      "@id": "em:siteOf",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "site of"
-    },
-    {
-      "@id": "em:ke_macrophages",
-      "@type": "em:KeyEvent",
-      "altLabel": "macrophage activation",
-      "definition": "Activation and recruitment of macrophages in the lung.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "8.0"
-      },
-      "em:y": {
         "@type": "xsd:decimal",
         "@value": "7.0"
       },
-      "hiddenLabel": "macrophage",
-      "label": "macrophages",
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "3.8"
+      },
+      "hiddenLabel": [
+        "signal transduction",
+        "signaling pathway"
+      ],
+      "label": "signalling pathways",
       "labelMatch": [
-        "http://purl.obolibrary.org/obo/CL_0000235",
-        "http://purl.obolibrary.org/obo/GO_0042116",
-        "http://purl.obolibrary.org/obo/FBbt_00001685"
+        "http://purl.obolibrary.org/obo/GO_0007165",
+        "http://purl.obolibrary.org/obo/PW_0000003",
+        "http://purl.obolibrary.org/obo/TXPO_0000609"
       ],
-      "leadsToAOP": "em:ke_inflammation"
+      "leadsTo": [
+        "em:ao_fibrosis",
+        "em:ke_emt",
+        "em:ke_unjamming_transition"
+      ]
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/OGG_0000000002",
-      "inOntology": [
-        "BMONT",
-        "CIDO",
-        "OHMI",
-        "OHPI",
-        "OVAE",
-        "TXPO",
-        "VO"
-      ],
-      "rdfs:label": "gene"
-    },
-    {
-      "@id": "em:matrix_saliva",
-      "@type": "em:Matrix",
-      "definition": "Saliva as biomonitoring matrix.",
+      "@id": "em:ke_unjamming_transition",
+      "@type": "em:KeyEvent",
+      "definition": "The airway epithelium changes from a solid-like, jammed layer to a fluid-like, migratory one. Listed under 'outcome' on the board.",
       "em:board": 1,
       "em:ink": "purple",
       "em:x": {
         "@type": "xsd:decimal",
-        "@value": "9.6"
+        "@value": "9.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "2.4"
+      },
+      "label": "unjamming transition"
+    },
+    {
+      "@id": "em:labelMatch",
+      "@type": "owl:ObjectProperty",
+      "label": "label match",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Ontology term on ExpoPortal whose label or exact synonym equals a label of this node (ignoring case). Found automatically by match_ontology.py; not curated."
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "em:automaticMatch"
+      }
+    },
+    {
+      "@id": "em:leadsTo",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "label": "leads to"
+    },
+    {
+      "@id": "em:leadsToAOP",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "em:inferred": true,
+      "label": "leads to (AOP knowledge)",
+      "rdfs:comment": {
+        "@language": "en",
+        "@value": "Link that is not drawn on the board; added from adverse outcome pathway knowledge."
+      },
+      "rdfs:subPropertyOf": {
+        "@id": "em:leadsTo"
+      }
+    },
+    {
+      "@id": "em:map",
+      "@type": "owl:Ontology",
+      "dcterms:created": {
+        "@type": "xsd:date",
+        "@value": "2026-11-11"
+      },
+      "dcterms:description": {
+        "@language": "en",
+        "@value": "Knowledge graph of an exposome workflow, from source via chemical and exposure route to biological processes and adverse outcomes, drawn on a blackboard on 2026-11-10."
+      },
+      "label": "Exposome flow map (blackboard)"
+    },
+    {
+      "@id": "em:matrix_blood",
+      "@type": "em:Matrix",
+      "definition": "Blood as biomonitoring matrix.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "7.2"
       },
       "em:y": {
         "@type": "xsd:decimal",
         "@value": "12.5"
       },
-      "label": "saliva",
+      "label": "blood",
       "labelMatch": [
-        "http://purl.obolibrary.org/obo/UBERON_0001836",
-        "http://purl.bioontology.org/ontology/MESH/D012463"
-      ]
-    },
-    {
-      "@id": "http://sweetontology.net/phenBiol/Inhalation",
-      "inOntology": "SWEET",
-      "rdfs:label": "inhalation"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/CL_0000235",
-      "inOntology": [
-        "CL",
-        "DOID",
-        "EFO",
-        "HPO",
-        "MONDO",
-        "OBA",
-        "OBI",
-        "OHPI",
-        "ONE",
-        "PHIPO",
-        "TXPO",
-        "UBERON",
-        "VO"
-      ],
-      "rdfs:label": "macrophage"
-    },
-    {
-      "@id": "em:modulates",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "modulates"
-    },
-    {
-      "@id": "em:particle_trwp",
-      "@type": "em:Stressor",
-      "altLabel": "tire and road wear particles",
-      "broader": "em:particle_micro_nanoplastics",
-      "definition": "Particles of tire tread and road material formed by abrasion.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "1.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "6.6"
-      },
-      "hiddenLabel": "tire wear particles",
-      "label": "TRWPs"
-    },
-    {
-      "@id": "em:Organ",
-      "@type": "owl:Class",
-      "definition": "Organ or tissue where the stressor acts.",
-      "em:stageOrder": 6,
-      "label": "organ",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/UBERON_0001088",
-      "inOntology": [
-        "BMONT",
-        "CIDO",
-        "CL",
-        "ECTO",
-        "EFO",
-        "ENVO",
-        "GECKO",
-        "GENEPIO",
-        "HPO",
-        "MAXO",
-        "MONDO",
-        "NBO",
-        "OAE",
-        "OBA",
-        "OBCS",
-        "OBI",
-        "OHMI",
-        "OHPI",
-        "ONE",
-        "ONS",
-        "TXPO",
-        "UBERON"
-      ],
-      "rdfs:label": "urine"
-    },
-    {
-      "@id": "em:ExposureRoute",
-      "@type": "owl:Class",
-      "definition": "Way a stressor enters the organism.",
-      "em:stageOrder": 5,
-      "label": "exposure route",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/ExO_0000063",
-      "inOntology": "EXO",
-      "rdfs:label": "blood"
-    },
-    {
-      "@id": "em:receptor_coho_salmon",
-      "@type": "em:Receptor",
-      "definition": "Fish species (Oncorhynchus kisutch) that is acutely sensitive to 6PPD-quinone.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "4.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "6.6"
-      },
-      "hiddenLabel": "Oncorhynchus kisutch",
-      "label": "coho salmon",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/NCBITaxon_8019",
-        "http://purl.obolibrary.org/obo/FOODON_03411117",
-        "http://purl.obolibrary.org/obo/LFID_0004426"
+        "http://purl.obolibrary.org/obo/ExO_0000063",
+        "http://purl.obolibrary.org/obo/UBERON_0000178"
       ]
     },
     {
@@ -648,172 +1103,92 @@
       ]
     },
     {
-      "@id": "em:Workflow",
-      "@type": "owl:Class",
-      "definition": "A path through the map, from a source to the biological response.",
-      "label": "workflow"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/SYMP_0000061",
-      "inOntology": [
-        "BMONT",
-        "DOID",
-        "SO"
-      ],
-      "rdfs:label": "inflammation"
-    },
-    {
-      "@id": "em:ao_fibrosis",
-      "@type": "em:AdverseOutcome",
-      "altLabel": "lung fibrosis",
-      "definition": "Scarring of lung tissue by excess connective tissue.",
+      "@id": "em:matrix_milk",
+      "@type": "em:Matrix",
+      "altLabel": "breast milk",
+      "definition": "Breast milk as biomonitoring matrix.",
       "em:board": 1,
       "em:ink": "purple",
       "em:x": {
         "@type": "xsd:decimal",
-        "@value": "10.3"
+        "@value": "8.8"
       },
       "em:y": {
         "@type": "xsd:decimal",
-        "@value": "3.0"
+        "@value": "12.5"
       },
-      "hiddenLabel": "pulmonary fibrosis",
-      "label": "fibrosis",
+      "hiddenLabel": "human milk",
+      "label": "milk",
       "labelMatch": [
-        "http://purl.obolibrary.org/obo/HP_0002206",
-        "http://purl.obolibrary.org/obo/MONDO_0002771",
-        "http://www.ebi.ac.uk/efo/EFO_0006890",
-        "http://purl.obolibrary.org/obo/DOID_3770",
-        "http://purl.obolibrary.org/obo/TXPO_0000219",
-        "http://www.ebi.ac.uk/efo/EFO_0009448"
+        "http://purl.bioontology.org/ontology/MESH/D008895",
+        "http://purl.obolibrary.org/obo/FOODON_03307455",
+        "http://purl.obolibrary.org/obo/LFID_0004774",
+        "http://purl.obolibrary.org/obo/LFID_0004801",
+        "http://purl.obolibrary.org/obo/UBERON_0001913",
+        "http://www.ebi.ac.uk/efo/EFO_0022598"
       ]
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/UBERON_0001037",
-      "inOntology": [
-        "CL",
-        "EFO",
-        "HPO",
-        "MAXO",
-        "UBERON"
-      ],
-      "rdfs:label": "hair"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/MONDO_0005271",
-      "inOntology": [
-        "EFO",
-        "MONDO"
-      ],
-      "rdfs:label": "allergic response"
-    },
-    {
-      "@id": "http://edamontology.org/topic_0622",
-      "inOntology": "ONS",
-      "rdfs:label": "Genomics"
-    },
-    {
-      "@id": "em:ke_signalling_pathways",
-      "@type": "em:KeyEvent",
-      "definition": "Intracellular signalling cascades that pass the stress signal on to gene expression and cell behaviour.",
+      "@id": "em:matrix_saliva",
+      "@type": "em:Matrix",
+      "definition": "Saliva as biomonitoring matrix.",
       "em:board": 1,
       "em:ink": "purple",
       "em:x": {
         "@type": "xsd:decimal",
-        "@value": "7.0"
+        "@value": "9.6"
       },
       "em:y": {
         "@type": "xsd:decimal",
-        "@value": "3.8"
+        "@value": "12.5"
       },
-      "hiddenLabel": [
-        "signaling pathway",
-        "signal transduction"
-      ],
-      "label": "signalling pathways",
+      "label": "saliva",
       "labelMatch": [
-        "http://purl.obolibrary.org/obo/GO_0007165",
-        "http://purl.obolibrary.org/obo/PW_0000003",
-        "http://purl.obolibrary.org/obo/TXPO_0000609"
-      ],
-      "leadsTo": [
-        "em:ke_emt",
-        "em:ke_unjamming_transition",
-        "em:ao_fibrosis"
+        "http://purl.bioontology.org/ontology/MESH/D012463",
+        "http://purl.obolibrary.org/obo/UBERON_0001836"
       ]
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/FBbt_00001685",
-      "inOntology": "EFO",
-      "rdfs:label": "macrophage"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/LFID_0004774",
-      "inOntology": "LSFO",
-      "rdfs:label": "milk"
-    },
-    {
-      "@id": "em:ke_erk_dependent",
-      "@type": "em:KeyEvent",
-      "altLabel": "ERK-dependent signalling",
-      "broader": "em:ke_signalling_pathways",
-      "definition": "Signalling that runs through the extracellular signal-regulated kinase (ERK).",
+      "@id": "em:matrix_urine",
+      "@type": "em:Matrix",
+      "definition": "Urine as biomonitoring matrix.",
       "em:board": 1,
       "em:ink": "purple",
       "em:x": {
         "@type": "xsd:decimal",
-        "@value": "7.0"
+        "@value": "8.0"
       },
       "em:y": {
         "@type": "xsd:decimal",
-        "@value": "5.0"
+        "@value": "12.5"
       },
-      "label": "ERK-dependent",
-      "leadsTo": "em:ao_asthma"
+      "label": "urine",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/UBERON_0001086",
+        "http://purl.obolibrary.org/obo/UBERON_0001088"
+      ]
     },
     {
-      "@id": "em:Stressor",
-      "@type": "owl:Class",
-      "definition": "Chemical or particle that an organism is exposed to (stressor in adverse outcome pathway terms).",
-      "em:stageOrder": 3,
-      "label": "chemical / stressor",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
+      "@id": "em:measures",
+      "@type": "owl:ObjectProperty",
+      "label": "measures"
     },
     {
-      "@id": "em:emission_non_exhaust",
-      "@type": "em:Emission",
-      "altLabel": "non-tailpipe emissions",
-      "definition": "Traffic emissions that do not come from the exhaust, such as tire, brake and road wear.",
-      "em:board": 2,
-      "em:ink": "orange",
+      "@id": "em:method_hrms_nontargeted",
+      "@type": "em:AnalyticalMethod",
+      "altLabel": "non-targeted high-resolution mass spectrometry",
+      "definition": "High-resolution mass spectrometry that screens for chemicals without a predefined target list.",
+      "em:board": 1,
+      "em:ink": "purple",
       "em:x": {
         "@type": "xsd:decimal",
-        "@value": "0.0"
+        "@value": "6.0"
       },
       "em:y": {
         "@type": "xsd:decimal",
-        "@value": "5.3"
+        "@value": "10.9"
       },
-      "label": "non-exhaust emissions"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/GO_0006979",
-      "inOntology": [
-        "CL",
-        "GO",
-        "OBA",
-        "PHIPO",
-        "TXPO"
-      ],
-      "rdfs:label": "response to oxidative stress"
-    },
-    {
-      "@id": "em:wf_anthropogenic",
-      "@type": "em:Workflow",
-      "definition": "Anthropogenic source, tires, 6PPD and 6PPD-quinone, inhalation, lung, biological response.",
-      "label": "anthropogenic workflow (tires, 6PPD)"
+      "label": "non-targeted HRMS"
     },
     {
       "@id": "em:method_hrms_targeted",
@@ -833,157 +1208,31 @@
       "label": "targeted HRMS"
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/FOODON_03307455",
-      "inOntology": [
-        "ECTO",
-        "FOODON",
-        "MAXO"
-      ],
-      "rdfs:label": "milk"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/GO_0042116",
-      "inOntology": [
-        "CL",
-        "EFO",
-        "GO",
-        "MONDO",
-        "OBA",
-        "PHIPO",
-        "TXPO",
-        "UBERON"
-      ],
-      "rdfs:label": "macrophage activation"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/UBERON_0002048",
-      "inOntology": [
-        "CIDO",
-        "CL",
-        "DOID",
-        "ECTO",
-        "EFO",
-        "FOODON",
-        "GENEPIO",
-        "HPO",
-        "MAXO",
-        "MONDO",
-        "NBO",
-        "OAE",
-        "OBA",
-        "OBCS",
-        "OBI",
-        "OHMI",
-        "OHPI",
-        "ONE",
-        "OVAE",
-        "PATO",
-        "PHIPO",
-        "RBO",
-        "TXPO",
-        "UBERON"
-      ],
-      "rdfs:label": "lung"
-    },
-    {
-      "@id": "em:pop_male_60",
-      "@type": "em:Receptor",
-      "definition": "Example population group from the board.",
+      "@id": "em:mod_age",
+      "@type": "em:Modifier",
+      "definition": "Age of the individual.",
       "em:board": 1,
       "em:ink": "orange",
       "em:x": {
         "@type": "xsd:decimal",
-        "@value": "13.1"
+        "@value": "11.9"
       },
       "em:y": {
         "@type": "xsd:decimal",
-        "@value": "2.5"
+        "@value": "3.7"
       },
-      "hasCharacteristic": [
-        "em:mod_sex_gender",
-        "em:mod_age"
+      "label": "age",
+      "labelMatch": [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C25150",
+        "http://purl.obolibrary.org/obo/ExO_0000102",
+        "http://purl.obolibrary.org/obo/PATO_0000011",
+        "http://purl.obolibrary.org/obo/PR_000013884",
+        "http://research.ibm.com/ontologies/hspo/Age",
+        "http://semanticscience.org/resource/SIO_001013",
+        "http://www.ebi.ac.uk/efo/EFO_0000246",
+        "http://xmlns.com/foaf/0.1/age"
       ],
-      "label": "male, 60 yrs"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/OHD_0010289",
-      "inOntology": "OHD",
-      "rdfs:label": "inflammation"
-    },
-    {
-      "@id": "em:leadsToAOP",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "em:inferred": true,
-      "label": "leads to (AOP knowledge)",
-      "rdfs:comment": {
-        "@language": "en",
-        "@value": "Link that is not drawn on the board; added from adverse outcome pathway knowledge."
-      },
-      "rdfs:subPropertyOf": {
-        "@id": "em:leadsTo"
-      }
-    },
-    {
-      "@id": "em:inOntology",
-      "@type": "owl:DatatypeProperty",
-      "label": "in ontology (ExpoPortal acronym)"
-    },
-    {
-      "@id": "http://www.ebi.ac.uk/efo/EFO_0000246",
-      "inOntology": [
-        "EFO",
-        "GENEPIO"
-      ],
-      "rdfs:label": "age"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/MS_1003348",
-      "inOntology": "MS",
-      "rdfs:label": "proteomics"
-    },
-    {
-      "@id": "em:ExposomeAssessment",
-      "@type": "owl:Class",
-      "definition": "Approach to measure the external or internal exposome.",
-      "em:stageOrder": 11,
-      "label": "exposome assessment",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/MPATH_212",
-      "inOntology": "HPO",
-      "rdfs:label": "inflammation"
-    },
-    {
-      "@id": "http://semanticscience.org/resource/SIO_000984",
-      "inOntology": "SIO",
-      "rdfs:label": "genome"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/IMR_0000382",
-      "inOntology": "TXPO",
-      "rdfs:label": "NF-kappaB"
-    },
-    {
-      "@id": "em:characterises",
-      "@type": "owl:ObjectProperty",
-      "label": "characterises"
-    },
-    {
-      "@id": "http://xmlns.com/foaf/0.1/gender",
-      "inOntology": [
-        "MO",
-        "OSDU"
-      ],
-      "rdfs:label": "gender"
-    },
-    {
-      "@id": "em:x",
-      "@type": "owl:DatatypeProperty",
-      "label": "layout x (grid units)"
+      "modifies": "em:group_biological_response"
     },
     {
       "@id": "em:mod_genes",
@@ -1003,12 +1252,517 @@
       "hiddenLabel": "gene",
       "label": "genes",
       "labelMatch": [
+        "http://purl.obolibrary.org/obo/ExO_0000035",
         "http://purl.obolibrary.org/obo/OGG_0000000002",
         "http://purl.obolibrary.org/obo/SO_0000704",
-        "http://purl.obolibrary.org/obo/ExO_0000035",
         "http://semanticscience.org/resource/SIO_010035"
       ],
       "modifies": "em:group_biological_response"
+    },
+    {
+      "@id": "em:mod_sex_gender",
+      "@type": "em:Modifier",
+      "altLabel": "sex",
+      "definition": "Sex or gender of the individual.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "11.9"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "2.5"
+      },
+      "label": "gender",
+      "labelMatch": [
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C17357",
+        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C28421",
+        "http://purl.obolibrary.org/obo/AOPO_0000241",
+        "http://purl.obolibrary.org/obo/ExO_0000110",
+        "http://purl.obolibrary.org/obo/GECKO_0000060",
+        "http://purl.obolibrary.org/obo/NCIT_C17357",
+        "http://purl.obolibrary.org/obo/NCIT_C28421",
+        "http://xmlns.com/foaf/0.1/gender"
+      ],
+      "modifies": "em:group_biological_response"
+    },
+    {
+      "@id": "em:mod_smoking_history",
+      "@type": "em:Modifier",
+      "definition": "Current and past tobacco smoking of the individual.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "11.9"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "4.9"
+      },
+      "label": "smoking history",
+      "modifies": "em:group_biological_response"
+    },
+    {
+      "@id": "em:mode_active_sampling",
+      "@type": "em:SamplingMethod",
+      "definition": "Sampling in which a pump draws air through the sampler.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "3.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "9.0"
+      },
+      "label": "active sampling"
+    },
+    {
+      "@id": "em:mode_passive_sampling",
+      "@type": "em:SamplingMethod",
+      "definition": "Sampling by diffusion, without a pump.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "3.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "10.2"
+      },
+      "label": "passive sampling",
+      "labelMatch": "http://purl.obolibrary.org/obo/CHMO_0002881"
+    },
+    {
+      "@id": "em:modifies",
+      "@type": "owl:ObjectProperty",
+      "label": "modifies"
+    },
+    {
+      "@id": "em:modulates",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "label": "modulates"
+    },
+    {
+      "@id": "em:omics_adductomics",
+      "@type": "em:OmicsMethod",
+      "definition": "Large-scale analysis of chemical adducts on DNA and proteins.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "10.6"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "-0.3"
+      },
+      "label": "adductomics",
+      "measures": "em:group_biological_response"
+    },
+    {
+      "@id": "em:omics_genomics",
+      "@type": "em:OmicsMethod",
+      "altLabel": "genomics",
+      "definition": "Analysis of genes and their expression.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "7.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "-0.3"
+      },
+      "label": "genome",
+      "labelMatch": [
+        "http://edamontology.org/topic_0622",
+        "http://purl.obolibrary.org/obo/OGG_0000000001",
+        "http://purl.obolibrary.org/obo/SO_0001026",
+        "http://purl.obolibrary.org/obo/TXPO_0000332",
+        "http://semanticscience.org/resource/SIO_000984",
+        "http://www.ebi.ac.uk/efo/EFO_0004420"
+      ],
+      "measures": [
+        "em:ke_nfkb",
+        "em:ke_ros_pathway"
+      ]
+    },
+    {
+      "@id": "em:omics_lipidomics",
+      "@type": "em:OmicsMethod",
+      "definition": "Large-scale analysis of lipids.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "9.78"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "-0.3"
+      },
+      "label": "lipidomics",
+      "measures": "em:group_biological_response"
+    },
+    {
+      "@id": "em:omics_metabolomics",
+      "@type": "em:OmicsMethod",
+      "definition": "Large-scale analysis of small-molecule metabolites.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "8.95"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "-0.3"
+      },
+      "label": "metabolomics",
+      "labelMatch": "http://edamontology.org/topic_3172",
+      "measures": "em:group_biological_response"
+    },
+    {
+      "@id": "em:omics_proteomics",
+      "@type": "em:OmicsMethod",
+      "definition": "Large-scale analysis of proteins.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "8.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "-0.3"
+      },
+      "label": "proteomics",
+      "labelMatch": [
+        "http://edamontology.org/topic_0121",
+        "http://purl.obolibrary.org/obo/MS_1003348"
+      ],
+      "measures": "em:ke_catalase"
+    },
+    {
+      "@id": "em:organ_lung",
+      "@type": "em:Organ",
+      "definition": "Organ of gas exchange; first target of inhaled stressors.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "6.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "4.0"
+      },
+      "inWorkflow": [
+        "em:wf_anthropogenic",
+        "em:wf_biogenic"
+      ],
+      "label": "lung",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/UBERON_0002048",
+        "http://purl.org/sig/ont/fma/fma7195"
+      ],
+      "siteOf": "em:group_biological_response"
+    },
+    {
+      "@id": "em:particle_micro_nanoplastics",
+      "@type": "em:Stressor",
+      "definition": "Plastic particles in the micrometre to nanometre size range.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "1.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "7.9"
+      },
+      "hiddenLabel": [
+        "microplastic",
+        "microplastics",
+        "nanoplastic",
+        "nanoplastics"
+      ],
+      "label": "micro-nanoplastics"
+    },
+    {
+      "@id": "em:particle_trwp",
+      "@type": "em:Stressor",
+      "altLabel": "tire and road wear particles",
+      "broader": "em:particle_micro_nanoplastics",
+      "definition": "Particles of tire tread and road material formed by abrasion.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "1.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "6.6"
+      },
+      "hiddenLabel": "tire wear particles",
+      "label": "TRWPs"
+    },
+    {
+      "@id": "em:pop_female_20",
+      "@type": "em:Receptor",
+      "definition": "Example population group from the board.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "13.1"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "3.7"
+      },
+      "hasCharacteristic": [
+        "em:mod_age",
+        "em:mod_sex_gender"
+      ],
+      "label": "female, 20 yrs"
+    },
+    {
+      "@id": "em:pop_male_60",
+      "@type": "em:Receptor",
+      "definition": "Example population group from the board.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "13.1"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "2.5"
+      },
+      "hasCharacteristic": [
+        "em:mod_age",
+        "em:mod_sex_gender"
+      ],
+      "label": "male, 60 yrs"
+    },
+    {
+      "@id": "em:proc_heterogeneous_oxidation",
+      "@type": "em:TransformationProcess",
+      "definition": "Oxidation of a chemical on a particle or surface by a gas-phase oxidant such as the hydroxyl radical.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "3.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "6.5"
+      },
+      "label": "heterogeneous oxidation"
+    },
+    {
+      "@id": "em:proc_ozonolysis",
+      "@type": "em:TransformationProcess",
+      "definition": "Reaction of a chemical with ozone.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "3.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "5.3"
+      },
+      "hasOutput": "em:chem_6ppd_quinone",
+      "inWorkflow": "em:wf_anthropogenic",
+      "label": "ozonolysis"
+    },
+    {
+      "@id": "em:receptor_coho_salmon",
+      "@type": "em:Receptor",
+      "definition": "Fish species (Oncorhynchus kisutch) that is acutely sensitive to 6PPD-quinone.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "4.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "6.6"
+      },
+      "hiddenLabel": "Oncorhynchus kisutch",
+      "label": "coho salmon",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/FOODON_03411117",
+        "http://purl.obolibrary.org/obo/LFID_0004426",
+        "http://purl.obolibrary.org/obo/NCBITaxon_8019"
+      ]
+    },
+    {
+      "@id": "em:role_antioxidant",
+      "@type": "em:ChemicalRole",
+      "definition": "Additive that protects a material against oxidation.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "2.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "2.8"
+      },
+      "hiddenLabel": "antioxidant",
+      "label": "anti-oxidant",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/CHEBI_22586",
+        "http://purl.obolibrary.org/obo/LFID_0006541"
+      ]
+    },
+    {
+      "@id": "em:role_plasticizer",
+      "@type": "em:ChemicalRole",
+      "definition": "Additive that makes a material more flexible.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "1.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "2.8"
+      },
+      "label": "plasticizer"
+    },
+    {
+      "@id": "em:route_inhalation",
+      "@type": "em:ExposureRoute",
+      "definition": "Uptake of a stressor by breathing.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "5.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "4.0"
+      },
+      "inWorkflow": [
+        "em:wf_anthropogenic",
+        "em:wf_biogenic"
+      ],
+      "label": "inhalation",
+      "labelMatch": [
+        "http://purl.obolibrary.org/obo/ExO_0000057",
+        "http://sweetontology.net/phenBiol/Inhalation",
+        "https://purl.exposure.io/vocab/evs/EVS_0000024"
+      ],
+      "targets": "em:organ_lung"
+    },
+    {
+      "@id": "em:sampler_individual",
+      "@type": "em:SamplingMethod",
+      "altLabel": "personal samplers",
+      "definition": "Sampler carried by one person to measure personal exposure.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "4.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "9.0"
+      },
+      "label": "individual samplers",
+      "samplingMode": [
+        "em:mode_active_sampling",
+        "em:mode_passive_sampling"
+      ]
+    },
+    {
+      "@id": "em:sampler_wearable_silicone",
+      "@type": "em:SamplingMethod",
+      "altLabel": "silicone wristbands",
+      "definition": "Silicone band worn on the body that takes up chemicals from air and skin contact.",
+      "em:board": 1,
+      "em:ink": "purple",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "4.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "10.2"
+      },
+      "hiddenLabel": "silicone wristband",
+      "label": "wearable silicone samplers",
+      "samplingMode": "em:mode_passive_sampling"
+    },
+    {
+      "@id": "em:samplingMode",
+      "@type": "owl:ObjectProperty",
+      "label": "sampling mode"
+    },
+    {
+      "@id": "em:siteOf",
+      "@type": "owl:ObjectProperty",
+      "em:flow": true,
+      "label": "site of"
+    },
+    {
+      "@id": "em:source_anthropogenic",
+      "@type": "em:Source",
+      "definition": "Emissions caused by human activity.",
+      "em:board": 2,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "0.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "4.0"
+      },
+      "inWorkflow": "em:wf_anthropogenic",
+      "includes": "em:source_tires",
+      "label": "anthropogenic",
+      "labelMatch": "http://sweetontology.net/stateBiological/Anthropogenic"
+    },
+    {
+      "@id": "em:source_biogenic",
+      "@type": "em:Source",
+      "definition": "Emissions of natural, biological origin, such as from vegetation.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "0.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "1.0"
+      },
+      "emits": "em:chem_alpha_pinene",
+      "inWorkflow": "em:wf_biogenic",
+      "label": "biogenic",
+      "labelMatch": "http://sweetontology.net/stateBiological/Biogenic"
     },
     {
       "@id": "em:source_tires",
@@ -1035,179 +1789,53 @@
       "labelMatch": "http://automotive.eurecom.fr/vsso#Tire"
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/PW_0000003",
-      "inOntology": "PW",
-      "rdfs:label": "signaling pathway"
+      "@id": "em:stageOrder",
+      "@type": "owl:DatatypeProperty",
+      "label": "order of the stage in the flow"
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/CHMO_0002881",
-      "inOntology": "CHMO",
-      "rdfs:label": "passive sampling"
-    },
-    {
-      "@id": "http://purl.org/sig/ont/fma/fma7195",
-      "inOntology": "ROO",
-      "rdfs:label": "Lung"
-    },
-    {
-      "@id": "em:hasOutput",
+      "@id": "em:targets",
       "@type": "owl:ObjectProperty",
       "em:flow": true,
-      "label": "gives"
+      "label": "targets"
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/NCIT_C28421",
-      "inOntology": "GENEPIO",
-      "rdfs:label": "Sex"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/LFID_0004801",
-      "inOntology": "LSFO",
-      "rdfs:label": "human milk"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/HP_0012393",
-      "inOntology": [
-        "CIDO",
-        "EFO",
-        "HPO",
-        "MONDO"
-      ],
-      "rdfs:label": "Allergy"
-    },
-    {
-      "@id": "em:ke_allergic_response",
-      "@type": "em:KeyEvent",
-      "altLabel": "allergic response",
-      "definition": "Immune reaction of the airways to an inhaled allergen.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "7.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "7.6"
-      },
-      "label": "allergy",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/HP_0012393",
-        "http://purl.obolibrary.org/obo/OBI_1110049",
-        "http://purl.obolibrary.org/obo/MONDO_0005271"
-      ],
-      "leadsTo": [
-        "em:ke_macrophages",
-        "em:ke_eosinophils"
-      ]
-    },
-    {
-      "@id": "em:omics_genomics",
-      "@type": "em:OmicsMethod",
-      "altLabel": "genomics",
-      "definition": "Analysis of genes and their expression.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "7.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "-0.3"
-      },
-      "label": "genome",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/OGG_0000000001",
-        "http://purl.obolibrary.org/obo/SO_0001026",
-        "http://edamontology.org/topic_0622",
-        "http://purl.obolibrary.org/obo/TXPO_0000332",
-        "http://semanticscience.org/resource/SIO_000984",
-        "http://www.ebi.ac.uk/efo/EFO_0004420"
-      ],
-      "measures": [
-        "em:ke_ros_pathway",
-        "em:ke_nfkb"
-      ]
-    },
-    {
-      "@id": "em:emission_tire_road_wear",
-      "@type": "em:Emission",
-      "broader": "em:emission_non_exhaust",
-      "definition": "Material released by abrasion between tire and road.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "1.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "5.3"
-      },
-      "emits": "em:particle_trwp",
-      "label": "tire-road wear emissions"
-    },
-    {
-      "@id": "http://edamontology.org/topic_0121",
-      "inOntology": "ONS",
-      "rdfs:label": "Proteomics"
-    },
-    {
-      "@id": "em:Node",
-      "@type": "owl:Class",
-      "label": "map node"
-    },
-    {
-      "@id": "em:ke_erk_independent",
-      "@type": "em:KeyEvent",
-      "altLabel": "ERK-independent signalling",
-      "broader": "em:ke_signalling_pathways",
-      "definition": "Signalling that does not run through the extracellular signal-regulated kinase (ERK).",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "7.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "6.0"
-      },
-      "label": "ERK-independent",
-      "leadsTo": "em:ao_asthma"
-    },
-    {
-      "@id": "em:labelMatch",
+      "@id": "em:toxicTo",
       "@type": "owl:ObjectProperty",
-      "label": "label match",
-      "rdfs:comment": {
-        "@language": "en",
-        "@value": "Ontology term on ExpoPortal whose label or exact synonym equals a label of this node (ignoring case). Found automatically; not curated. The matches are in exposome_map_mappings.ttl."
-      },
-      "rdfs:subPropertyOf": {
-        "@id": "skos:mappingRelation"
-      }
+      "em:flow": true,
+      "label": "toxic to"
     },
     {
-      "@id": "em:Source",
-      "@type": "owl:Class",
-      "definition": "Origin of an emission or chemical, natural or man-made.",
-      "em:stageOrder": 1,
-      "label": "source",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
+      "@id": "em:usesMatrix",
+      "@type": "owl:ObjectProperty",
+      "label": "samples"
     },
     {
-      "@id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C25150",
-      "inOntology": "ROO",
-      "rdfs:label": "Age"
+      "@id": "em:usesMethod",
+      "@type": "owl:ObjectProperty",
+      "label": "uses"
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/ExO_0000102",
-      "inOntology": "EXO",
-      "rdfs:label": "age"
+      "@id": "em:wf_anthropogenic",
+      "@type": "em:Workflow",
+      "definition": "Anthropogenic source, tires, 6PPD and 6PPD-quinone, inhalation, lung, biological response.",
+      "label": "anthropogenic workflow (tires, 6PPD)"
+    },
+    {
+      "@id": "em:wf_biogenic",
+      "@type": "em:Workflow",
+      "definition": "Biogenic source, alpha-pinene, inhalation, lung, biological response.",
+      "label": "biogenic workflow (alpha-pinene)"
+    },
+    {
+      "@id": "em:x",
+      "@type": "owl:DatatypeProperty",
+      "label": "layout x (grid units)"
+    },
+    {
+      "@id": "em:y",
+      "@type": "owl:DatatypeProperty",
+      "label": "layout y (grid units)"
     },
     {
       "@id": "http://automotive.eurecom.fr/vsso#Tire",
@@ -1215,48 +1843,49 @@
       "rdfs:label": "Tire"
     },
     {
-      "@id": "https://saref.etsi.org/saref4ehaw/Asthma",
-      "inOntology": "SAREF4EHAW",
-      "rdfs:label": "Asthma"
+      "@id": "http://edamontology.org/topic_0121",
+      "inOntology": "ONS",
+      "rdfs:label": "Proteomics"
     },
     {
-      "@id": "em:includes",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "includes"
+      "@id": "http://edamontology.org/topic_0622",
+      "inOntology": "ONS",
+      "rdfs:label": "Genomics"
     },
     {
-      "@id": "em:proc_heterogeneous_oxidation",
-      "@type": "em:TransformationProcess",
-      "definition": "Oxidation of a chemical on a particle or surface by a gas-phase oxidant such as the hydroxyl radical.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "3.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "6.5"
-      },
-      "label": "heterogeneous oxidation"
+      "@id": "http://edamontology.org/topic_3172",
+      "inOntology": "ONS",
+      "rdfs:label": "Metabolomics"
     },
     {
-      "@id": "em:mode_passive_sampling",
-      "@type": "em:SamplingMethod",
-      "definition": "Sampling by diffusion, without a pump.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "3.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "10.2"
-      },
-      "label": "passive sampling",
-      "labelMatch": "http://purl.obolibrary.org/obo/CHMO_0002881"
+      "@id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C17357",
+      "inOntology": "ROO",
+      "rdfs:label": "Gender"
+    },
+    {
+      "@id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C25150",
+      "inOntology": "ROO",
+      "rdfs:label": "Age"
+    },
+    {
+      "@id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C28421",
+      "inOntology": "ROO",
+      "rdfs:label": "Sex"
+    },
+    {
+      "@id": "http://purl.bioontology.org/ontology/MESH/D008895",
+      "inOntology": "EVS",
+      "rdfs:label": "Human Milk"
+    },
+    {
+      "@id": "http://purl.bioontology.org/ontology/MESH/D012463",
+      "inOntology": "EVS",
+      "rdfs:label": "Saliva"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/AOPO_0000241",
+      "inOntology": "AOPO",
+      "rdfs:label": "sex"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/CHEBI_22586",
@@ -1278,6 +1907,209 @@
       "rdfs:label": "antioxidant"
     },
     {
+      "@id": "http://purl.obolibrary.org/obo/CHEBI_25812",
+      "inOntology": [
+        "ECTO",
+        "EFO",
+        "ENVO"
+      ],
+      "rdfs:label": [
+        "6PPD-Q",
+        "ozone"
+      ]
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/CHEBI_29191",
+      "inOntology": [
+        "OBI",
+        "ONE",
+        "TXPO"
+      ],
+      "rdfs:label": "hydroxyl"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/CHEBI_36740",
+      "inOntology": "ECTO",
+      "rdfs:label": "alpha-pinene"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/CHMO_0002881",
+      "inOntology": "CHMO",
+      "rdfs:label": "passive sampling"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/CL_0000235",
+      "inOntology": [
+        "CL",
+        "DOID",
+        "EFO",
+        "HPO",
+        "MONDO",
+        "OBA",
+        "OBI",
+        "OHPI",
+        "ONE",
+        "PHIPO",
+        "TXPO",
+        "UBERON",
+        "VO"
+      ],
+      "rdfs:label": "macrophage"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/CL_0000771",
+      "inOntology": [
+        "CL",
+        "DOID",
+        "EFO",
+        "HPO",
+        "MAXO",
+        "MONDO",
+        "OBA",
+        "OBI",
+        "TXPO"
+      ],
+      "rdfs:label": "eosinophil"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/DOID_2841",
+      "inOntology": [
+        "BMONT",
+        "DOID"
+      ],
+      "rdfs:label": "asthma"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/DOID_3770",
+      "inOntology": "DOID",
+      "rdfs:label": "pulmonary fibrosis"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/ExO_0000035",
+      "inOntology": "EXO",
+      "rdfs:label": "genetic background"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/ExO_0000057",
+      "inOntology": "GENEPIO",
+      "rdfs:label": "inhalation"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/ExO_0000063",
+      "inOntology": "EXO",
+      "rdfs:label": "blood"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/ExO_0000077",
+      "inOntology": "EXO",
+      "rdfs:label": "biological response"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/ExO_0000102",
+      "inOntology": "EXO",
+      "rdfs:label": "age"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/ExO_0000110",
+      "inOntology": "EXO",
+      "rdfs:label": "sex"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/FBbt_00001685",
+      "inOntology": "EFO",
+      "rdfs:label": "macrophage"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/FOODON_03307455",
+      "inOntology": [
+        "ECTO",
+        "FOODON",
+        "MAXO"
+      ],
+      "rdfs:label": "milk"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/FOODON_03411117",
+      "inOntology": "FOODON",
+      "rdfs:label": "coho salmon"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/GECKO_0000060",
+      "inOntology": "GECKO",
+      "rdfs:label": "gender"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/GO_0001837",
+      "inOntology": [
+        "CL",
+        "GO",
+        "OBA",
+        "PATO",
+        "PHIPO",
+        "RBO",
+        "TXPO",
+        "UBERON"
+      ],
+      "rdfs:label": "EMT"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/GO_0006979",
+      "inOntology": [
+        "CL",
+        "GO",
+        "OBA",
+        "PHIPO",
+        "TXPO"
+      ],
+      "rdfs:label": "response to oxidative stress"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/GO_0007165",
+      "inOntology": [
+        "AGRO",
+        "CIDO",
+        "CL",
+        "EFO",
+        "GO",
+        "HPO",
+        "MAXO",
+        "MONDO",
+        "OBA",
+        "OHPI",
+        "PATO",
+        "PHIPO",
+        "PTO",
+        "RBO",
+        "UBERON"
+      ],
+      "rdfs:label": "signal transduction"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/GO_0042116",
+      "inOntology": [
+        "CL",
+        "EFO",
+        "GO",
+        "MONDO",
+        "OBA",
+        "PHIPO",
+        "TXPO",
+        "UBERON"
+      ],
+      "rdfs:label": "macrophage activation"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/HP_0002099",
+      "inOntology": [
+        "CIDO",
+        "EFO",
+        "GENEPIO",
+        "HPO",
+        "MONDO"
+      ],
+      "rdfs:label": "Asthma"
+    },
+    {
       "@id": "http://purl.obolibrary.org/obo/HP_0002206",
       "inOntology": [
         "GENEPIO",
@@ -1287,34 +2119,114 @@
       "rdfs:label": "Pulmonary fibrosis"
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/CHEBI_25812",
+      "@id": "http://purl.obolibrary.org/obo/HP_0012393",
       "inOntology": [
-        "ECTO",
+        "CIDO",
         "EFO",
-        "ENVO"
+        "HPO",
+        "MONDO"
       ],
-      "rdfs:label": "ozone"
+      "rdfs:label": "Allergy"
     },
     {
-      "@id": "em:ke_catalase",
-      "@type": "em:KeyEvent",
-      "definition": "Antioxidant enzyme that breaks down hydrogen peroxide; its level reflects the response to reactive oxygen species.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "8.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "1.4"
-      },
-      "label": "catalase",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/PR_000005061",
-        "http://purl.obolibrary.org/obo/VO_0011339"
+      "@id": "http://purl.obolibrary.org/obo/IMR_0000382",
+      "inOntology": "TXPO",
+      "rdfs:label": "NF-kappaB"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/LFID_0004426",
+      "inOntology": "LSFO",
+      "rdfs:label": "coho salmon"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/LFID_0004774",
+      "inOntology": "LSFO",
+      "rdfs:label": "milk"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/LFID_0004801",
+      "inOntology": "LSFO",
+      "rdfs:label": "human milk"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/LFID_0006541",
+      "inOntology": "LSFO",
+      "rdfs:label": "antioxidant"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/MONDO_0002771",
+      "inOntology": [
+        "EFO",
+        "MONDO"
       ],
-      "modulates": "em:ke_ros_pathway"
+      "rdfs:label": "pulmonary fibrosis"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/MONDO_0004979",
+      "inOntology": [
+        "EFO",
+        "MONDO",
+        "OBA"
+      ],
+      "rdfs:label": "asthma"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/MONDO_0005271",
+      "inOntology": [
+        "EFO",
+        "MONDO"
+      ],
+      "rdfs:label": "allergic response"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/MPATH_212",
+      "inOntology": "HPO",
+      "rdfs:label": "inflammation"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/MP_0001845",
+      "inOntology": [
+        "EFO",
+        "GENEPIO"
+      ],
+      "rdfs:label": "inflammation"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/MP_0003674",
+      "inOntology": "BMONT",
+      "rdfs:label": "oxidative stress"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/MS_1000111",
+      "inOntology": "MS",
+      "rdfs:label": "EMT"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/MS_1003348",
+      "inOntology": "MS",
+      "rdfs:label": "proteomics"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/NCBITaxon_8019",
+      "inOntology": [
+        "EFO",
+        "FOODON",
+        "ONS"
+      ],
+      "rdfs:label": "coho salmon"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/NCIT_C17357",
+      "inOntology": [
+        "EXMO",
+        "GENEPIO"
+      ],
+      "rdfs:label": "Gender"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/NCIT_C28421",
+      "inOntology": "GENEPIO",
+      "rdfs:label": "Sex"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/OBI_1110049",
@@ -1327,295 +2239,32 @@
       "rdfs:label": "allergy"
     },
     {
-      "@id": "em:ink",
-      "@type": "owl:DatatypeProperty",
-      "label": "ink colour on the board"
-    },
-    {
-      "@id": "em:inferred",
-      "@type": "owl:DatatypeProperty",
-      "label": "not drawn on the board"
-    },
-    {
-      "@id": "em:route_inhalation",
-      "@type": "em:ExposureRoute",
-      "definition": "Uptake of a stressor by breathing.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "5.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "4.0"
-      },
-      "inWorkflow": [
-        "em:wf_biogenic",
-        "em:wf_anthropogenic"
-      ],
-      "label": "inhalation",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/ExO_0000057",
-        "http://sweetontology.net/phenBiol/Inhalation",
-        "https://purl.exposure.io/vocab/evs/EVS_0000024"
-      ],
-      "targets": "em:organ_lung"
-    },
-    {
-      "@id": "em:proc_ozonolysis",
-      "@type": "em:TransformationProcess",
-      "definition": "Reaction of a chemical with ozone.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "3.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "5.3"
-      },
-      "hasOutput": "em:chem_6ppd_quinone",
-      "inWorkflow": "em:wf_anthropogenic",
-      "label": "ozonolysis"
-    },
-    {
-      "@id": "https://bioportal.bioontology.org/ontologies/DREDTO#asthma",
-      "inOntology": "DREDTO",
-      "rdfs:label": "Asthma"
-    },
-    {
-      "@id": "em:pop_female_20",
-      "@type": "em:Receptor",
-      "definition": "Example population group from the board.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "13.1"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "3.7"
-      },
-      "hasCharacteristic": [
-        "em:mod_sex_gender",
-        "em:mod_age"
-      ],
-      "label": "female, 20 yrs"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/LFID_0006541",
-      "inOntology": "LSFO",
-      "rdfs:label": "antioxidant"
-    },
-    {
-      "@id": "em:group_biological_response",
-      "@type": "em:ProcessGroup",
-      "definition": "Biological processes triggered in the lung by the exposure, from molecular key events to adverse outcomes.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "hasPart": [
-        "em:ke_ros_pathway",
-        "em:ke_nfkb",
-        "em:ke_catalase",
-        "em:ke_signalling_pathways",
-        "em:ke_erk_dependent",
-        "em:ke_erk_independent",
-        "em:ke_allergic_response",
-        "em:ke_macrophages",
-        "em:ke_eosinophils",
-        "em:ke_inflammation",
-        "em:ke_emt",
-        "em:ke_unjamming_transition",
-        "em:ao_fibrosis",
-        "em:ao_asthma"
-      ],
-      "inWorkflow": [
-        "em:wf_biogenic",
-        "em:wf_anthropogenic"
-      ],
-      "label": "biological response",
-      "labelMatch": "http://purl.obolibrary.org/obo/ExO_0000077"
-    },
-    {
-      "@id": "em:assess_internal_exposome",
-      "@type": "em:ExposomeAssessment",
-      "assessedBy": "em:assess_biomonitoring",
-      "characterises": "em:group_biological_response",
-      "definition": "Measurement of exposure and its effects inside the body.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "7.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "9.9"
-      },
-      "label": "internal exposome",
-      "usesMethod": [
-        "em:method_hrms_nontargeted",
-        "em:method_hrms_targeted"
-      ]
-    },
-    {
-      "@id": "http://www.ebi.ac.uk/efo/EFO_1001905",
-      "inOntology": "EFO",
-      "rdfs:label": "oxidative stress"
-    },
-    {
-      "@id": "em:chem_alpha_pinene",
-      "@type": "em:Stressor",
-      "altLabel": "alpha-pinene",
-      "definition": "Monoterpene emitted by vegetation, mainly conifers.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "2.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "1.0"
-      },
-      "exposureVia": "em:route_inhalation",
-      "inWorkflow": "em:wf_biogenic",
-      "label": "α-pinene",
-      "labelMatch": "http://purl.obolibrary.org/obo/CHEBI_36740"
-    },
-    {
-      "@id": "em:map",
-      "@type": "owl:Ontology",
-      "dcterms:created": {
-        "@type": "xsd:date",
-        "@value": "2026-11-11"
-      },
-      "dcterms:description": {
-        "@language": "en",
-        "@value": "Knowledge graph of an exposome workflow, from source via chemical and exposure route to biological processes and adverse outcomes, drawn on a blackboard on 2026-11-10."
-      },
-      "label": "Exposome flow map (blackboard)"
-    },
-    {
-      "@id": "http://sweetontology.net/stateBiological/Anthropogenic",
-      "inOntology": "SWEET",
-      "rdfs:label": "anthropogenic"
-    },
-    {
-      "@id": "em:ke_unjamming_transition",
-      "@type": "em:KeyEvent",
-      "definition": "The airway epithelium changes from a solid-like, jammed layer to a fluid-like, migratory one. Listed under 'outcome' on the board.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "9.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "2.4"
-      },
-      "label": "unjamming transition"
-    },
-    {
-      "@id": "em:chem_ozone",
-      "@type": "em:Stressor",
-      "definition": "Atmospheric oxidant (O3).",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "2.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "5.3"
-      },
-      "inputOf": "em:proc_ozonolysis",
-      "label": "ozone",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/CHEBI_25812",
-        "http://sweetontology.net/matrElementalMolecule/Ozone"
-      ]
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/MS_1000111",
-      "inOntology": "MS",
-      "rdfs:label": "EMT"
-    },
-    {
-      "@id": "em:modifies",
-      "@type": "owl:ObjectProperty",
-      "label": "modifies"
-    },
-    {
-      "@id": "em:inputOf",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "input of"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/DOID_3770",
-      "inOntology": "DOID",
-      "rdfs:label": "pulmonary fibrosis"
-    },
-    {
-      "@id": "em:OmicsMethod",
-      "@type": "owl:Class",
-      "definition": "Omics technology with which a biological process can be measured.",
-      "em:stageOrder": 10,
-      "label": "omics method",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "em:source_anthropogenic",
-      "@type": "em:Source",
-      "definition": "Emissions caused by human activity.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "0.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "4.0"
-      },
-      "inWorkflow": "em:wf_anthropogenic",
-      "includes": "em:source_tires",
-      "label": "anthropogenic",
-      "labelMatch": "http://sweetontology.net/stateBiological/Anthropogenic"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/NCIT_C17357",
+      "@id": "http://purl.obolibrary.org/obo/OGG_0000000001",
       "inOntology": [
-        "EXMO",
-        "GENEPIO"
+        "CIDO",
+        "OHMI",
+        "OHPI",
+        "OVAE"
       ],
-      "rdfs:label": "Gender"
+      "rdfs:label": "genome"
     },
     {
-      "@id": "http://purl.org/sig/ont/fma/fma53667",
-      "inOntology": "EVS",
-      "rdfs:label": "Hair"
-    },
-    {
-      "@id": "em:usesMatrix",
-      "@type": "owl:ObjectProperty",
-      "label": "samples"
-    },
-    {
-      "@id": "http://www.ebi.ac.uk/efo/EFO_0006890",
+      "@id": "http://purl.obolibrary.org/obo/OGG_0000000002",
       "inOntology": [
         "BMONT",
-        "EFO"
+        "CIDO",
+        "OHMI",
+        "OHPI",
+        "OVAE",
+        "TXPO",
+        "VO"
       ],
-      "rdfs:label": "fibrosis"
+      "rdfs:label": "gene"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/OHD_0010289",
+      "inOntology": "OHD",
+      "rdfs:label": "inflammation"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/PATO_0000011",
@@ -1642,6 +2291,37 @@
       "rdfs:label": "age"
     },
     {
+      "@id": "http://purl.obolibrary.org/obo/PR_000005061",
+      "inOntology": [
+        "EFO",
+        "HPO"
+      ],
+      "rdfs:label": "catalase"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/PR_000013884",
+      "inOntology": "EFO",
+      "rdfs:label": "AGE"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/PW_0000003",
+      "inOntology": "PW",
+      "rdfs:label": "signaling pathway"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/SO_0000704",
+      "inOntology": [
+        "DOID",
+        "EFO",
+        "GENO",
+        "MAXO",
+        "MONDO",
+        "OBA",
+        "RBO"
+      ],
+      "rdfs:label": "gene"
+    },
+    {
       "@id": "http://purl.obolibrary.org/obo/SO_0001026",
       "inOntology": [
         "GENEPIO",
@@ -1651,78 +2331,13 @@
       "rdfs:label": "genome"
     },
     {
-      "@id": "em:sampler_individual",
-      "@type": "em:SamplingMethod",
-      "altLabel": "personal samplers",
-      "definition": "Sampler carried by one person to measure personal exposure.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "4.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "9.0"
-      },
-      "label": "individual samplers",
-      "samplingMode": [
-        "em:mode_active_sampling",
-        "em:mode_passive_sampling"
-      ]
-    },
-    {
-      "@id": "em:ke_eosinophils",
-      "@type": "em:KeyEvent",
-      "altLabel": "eosinophil recruitment",
-      "definition": "Recruitment of eosinophils to the airways.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "8.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "8.2"
-      },
-      "hiddenLabel": "eosinophil",
-      "label": "eosinophils",
-      "labelMatch": "http://purl.obolibrary.org/obo/CL_0000771",
-      "leadsToAOP": "em:ke_inflammation"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/UBERON_0001913",
+      "@id": "http://purl.obolibrary.org/obo/SYMP_0000061",
       "inOntology": [
-        "CIDO",
-        "CL",
-        "ECTO",
-        "EFO",
-        "ENVO",
-        "FOODON",
-        "GENEPIO",
-        "HPO",
-        "MAXO",
-        "MONDO",
-        "OBA",
-        "OBCS",
-        "OBI",
-        "ONE",
-        "ONS",
-        "UBERON"
+        "BMONT",
+        "DOID",
+        "SO"
       ],
-      "rdfs:label": "milk"
-    },
-    {
-      "@id": "em:stageOrder",
-      "@type": "owl:DatatypeProperty",
-      "label": "order of the stage in the flow"
-    },
-    {
-      "@id": "em:emits",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "emits"
+      "rdfs:label": "inflammation"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/TXPO_0000219",
@@ -1730,357 +2345,14 @@
       "rdfs:label": "fibrosis"
     },
     {
-      "@id": "em:method_hrms_nontargeted",
-      "@type": "em:AnalyticalMethod",
-      "altLabel": "non-targeted high-resolution mass spectrometry",
-      "definition": "High-resolution mass spectrometry that screens for chemicals without a predefined target list.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "6.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "10.9"
-      },
-      "label": "non-targeted HRMS"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/MP_0001845",
-      "inOntology": [
-        "EFO",
-        "GENEPIO"
-      ],
-      "rdfs:label": "inflammation"
-    },
-    {
-      "@id": "em:ke_nfkb",
-      "@type": "em:KeyEvent",
-      "altLabel": [
-        "nf-kB",
-        "NF-kappaB signalling"
-      ],
-      "broader": "em:ke_signalling_pathways",
-      "definition": "Activation of the transcription factor NF-kappaB, a central switch of inflammatory gene expression.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "7.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "2.6"
-      },
-      "hiddenLabel": "NF-kappaB",
-      "label": "NF-κB",
-      "labelMatch": "http://purl.obolibrary.org/obo/IMR_0000382",
-      "leadsToAOP": "em:ke_inflammation"
-    },
-    {
-      "@id": "em:sampler_wearable_silicone",
-      "@type": "em:SamplingMethod",
-      "altLabel": "silicone wristbands",
-      "definition": "Silicone band worn on the body that takes up chemicals from air and skin contact.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "4.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "10.2"
-      },
-      "hiddenLabel": "silicone wristband",
-      "label": "wearable silicone samplers",
-      "samplingMode": "em:mode_passive_sampling"
-    },
-    {
-      "@id": "https://purl.exposure.io/vocab/evs/EVS_0000024",
-      "inOntology": "EVS",
-      "rdfs:label": "Inhalation"
-    },
-    {
-      "@id": "em:inWorkflow",
-      "@type": "owl:ObjectProperty",
-      "label": "in workflow"
-    },
-    {
-      "@id": "em:omics_metabolomics",
-      "@type": "em:OmicsMethod",
-      "definition": "Large-scale analysis of small-molecule metabolites.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "8.95"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "-0.3"
-      },
-      "label": "metabolomics",
-      "labelMatch": "http://edamontology.org/topic_3172",
-      "measures": "em:group_biological_response"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/CHEBI_29191",
-      "inOntology": [
-        "OBI",
-        "ONE",
-        "TXPO"
-      ],
-      "rdfs:label": "hydroxyl"
-    },
-    {
-      "@id": "http://research.ibm.com/ontologies/hspo/Age",
-      "inOntology": "HSPO",
-      "rdfs:label": "Age"
-    },
-    {
-      "@id": "http://sweetontology.net/matrCompound/Hydroxyl",
-      "inOntology": "SWEET",
-      "rdfs:label": "hydroxyl"
+      "@id": "http://purl.obolibrary.org/obo/TXPO_0000332",
+      "inOntology": "TXPO",
+      "rdfs:label": "genome"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/TXPO_0000609",
       "inOntology": "TXPO",
       "rdfs:label": "signaling pathway"
-    },
-    {
-      "@id": "http://semanticscience.org/resource/SIO_001013",
-      "inOntology": "SIO",
-      "rdfs:label": "age"
-    },
-    {
-      "@id": "em:role_antioxidant",
-      "@type": "em:ChemicalRole",
-      "definition": "Additive that protects a material against oxidation.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "2.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "2.8"
-      },
-      "hiddenLabel": "antioxidant",
-      "label": "anti-oxidant",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/CHEBI_22586",
-        "http://purl.obolibrary.org/obo/LFID_0006541"
-      ]
-    },
-    {
-      "@id": "http://xmlns.com/foaf/0.1/age",
-      "inOntology": [
-        "MO",
-        "OSDU"
-      ],
-      "rdfs:label": "age"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/NCBITaxon_8019",
-      "inOntology": [
-        "EFO",
-        "FOODON",
-        "ONS"
-      ],
-      "rdfs:label": "coho salmon"
-    },
-    {
-      "@id": "em:matrix_milk",
-      "@type": "em:Matrix",
-      "altLabel": "breast milk",
-      "definition": "Breast milk as biomonitoring matrix.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "8.8"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "12.5"
-      },
-      "hiddenLabel": "human milk",
-      "label": "milk",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/UBERON_0001913",
-        "http://purl.obolibrary.org/obo/FOODON_03307455",
-        "http://purl.bioontology.org/ontology/MESH/D008895",
-        "http://purl.obolibrary.org/obo/LFID_0004774",
-        "http://purl.obolibrary.org/obo/LFID_0004801",
-        "http://www.ebi.ac.uk/efo/EFO_0022598"
-      ]
-    },
-    {
-      "@id": "em:organ_lung",
-      "@type": "em:Organ",
-      "definition": "Organ of gas exchange; first target of inhaled stressors.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "6.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "4.0"
-      },
-      "inWorkflow": [
-        "em:wf_biogenic",
-        "em:wf_anthropogenic"
-      ],
-      "label": "lung",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/UBERON_0002048",
-        "http://purl.org/sig/ont/fma/fma7195"
-      ],
-      "siteOf": "em:group_biological_response"
-    },
-    {
-      "@id": "em:Matrix",
-      "@type": "owl:Class",
-      "definition": "Body fluid or tissue sampled in human biomonitoring.",
-      "em:stageOrder": 11,
-      "label": "biomonitoring matrix",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "em:ke_inflammation",
-      "@type": "em:KeyEvent",
-      "definition": "Inflammatory response of the lung tissue.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "9.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "6.6"
-      },
-      "label": "inflammation",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/SYMP_0000061",
-        "http://purl.obolibrary.org/obo/MP_0001845",
-        "http://purl.obolibrary.org/obo/MPATH_212",
-        "http://purl.obolibrary.org/obo/OHD_0010289"
-      ],
-      "leadsToAOP": [
-        "em:ke_emt",
-        "em:ao_asthma"
-      ]
-    },
-    {
-      "@id": "http://semanticscience.org/resource/SIO_010035",
-      "inOntology": "SIO",
-      "rdfs:label": "gene"
-    },
-    {
-      "@id": "em:omics_adductomics",
-      "@type": "em:OmicsMethod",
-      "definition": "Large-scale analysis of chemical adducts on DNA and proteins.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "10.6"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "-0.3"
-      },
-      "label": "adductomics",
-      "measures": "em:group_biological_response"
-    },
-    {
-      "@id": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C28421",
-      "inOntology": "ROO",
-      "rdfs:label": "Sex"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/ExO_0000110",
-      "inOntology": "EXO",
-      "rdfs:label": "sex"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/CHEBI_36740",
-      "inOntology": "ECTO",
-      "rdfs:label": "alpha-pinene"
-    },
-    {
-      "@id": "em:leadsTo",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "leads to"
-    },
-    {
-      "@id": "em:hasCharacteristic",
-      "@type": "owl:ObjectProperty",
-      "label": "has characteristic"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/GECKO_0000060",
-      "inOntology": "GECKO",
-      "rdfs:label": "gender"
-    },
-    {
-      "@id": "em:flow",
-      "@type": "owl:DatatypeProperty",
-      "label": "is part of the main flow"
-    },
-    {
-      "@id": "em:omics_lipidomics",
-      "@type": "em:OmicsMethod",
-      "definition": "Large-scale analysis of lipids.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "9.78"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "-0.3"
-      },
-      "label": "lipidomics",
-      "measures": "em:group_biological_response"
-    },
-    {
-      "@id": "em:chem_hydroxyl_radical",
-      "@type": "em:Stressor",
-      "altLabel": "hydroxyl radical",
-      "definition": "Atmospheric oxidant (hydroxyl radical).",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "2.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "6.5"
-      },
-      "hiddenLabel": "hydroxyl",
-      "inputOf": "em:proc_heterogeneous_oxidation",
-      "label": "•OH",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/CHEBI_29191",
-        "http://sweetontology.net/matrCompound/Hydroxyl"
-      ]
-    },
-    {
-      "@id": "em:hasRole",
-      "@type": "owl:ObjectProperty",
-      "label": "has role"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/UBERON_0000178",
@@ -2119,63 +2391,48 @@
       "rdfs:label": "blood"
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/VO_0011339",
-      "inOntology": "VO",
-      "rdfs:label": "Catalase"
-    },
-    {
-      "@id": "em:toxicTo",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "toxic to"
-    },
-    {
-      "@id": "em:chem_6ppd",
-      "@type": "em:Stressor",
-      "altLabel": "N-(1,3-dimethylbutyl)-N'-phenyl-p-phenylenediamine",
-      "definition": "Tire rubber additive that protects the rubber against ozone and oxidation.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "2.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "4.0"
-      },
-      "exposureVia": "em:route_inhalation",
-      "hasRole": [
-        "em:role_antioxidant",
-        "em:role_plasticizer"
-      ],
-      "inWorkflow": "em:wf_anthropogenic",
-      "inputOf": [
-        "em:proc_ozonolysis",
-        "em:proc_heterogeneous_oxidation"
-      ],
-      "label": "6PPD"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/GO_0007165",
+      "@id": "http://purl.obolibrary.org/obo/UBERON_0001037",
       "inOntology": [
-        "AGRO",
-        "CIDO",
         "CL",
         "EFO",
-        "GO",
+        "HPO",
+        "MAXO",
+        "UBERON"
+      ],
+      "rdfs:label": "hair"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/UBERON_0001086",
+      "inOntology": "EVS",
+      "rdfs:label": "Urine"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/UBERON_0001088",
+      "inOntology": [
+        "BMONT",
+        "CIDO",
+        "CL",
+        "ECTO",
+        "EFO",
+        "ENVO",
+        "GECKO",
+        "GENEPIO",
         "HPO",
         "MAXO",
         "MONDO",
+        "NBO",
+        "OAE",
         "OBA",
+        "OBCS",
+        "OBI",
+        "OHMI",
         "OHPI",
-        "PATO",
-        "PHIPO",
-        "PTO",
-        "RBO",
+        "ONE",
+        "ONS",
+        "TXPO",
         "UBERON"
       ],
-      "rdfs:label": "signal transduction"
+      "rdfs:label": "urine"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/UBERON_0001836",
@@ -2200,270 +2457,124 @@
       "rdfs:label": "saliva"
     },
     {
-      "@id": "em:omics_proteomics",
-      "@type": "em:OmicsMethod",
-      "definition": "Large-scale analysis of proteins.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "8.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "-0.3"
-      },
-      "label": "proteomics",
-      "labelMatch": [
-        "http://edamontology.org/topic_0121",
-        "http://purl.obolibrary.org/obo/MS_1003348"
-      ],
-      "measures": "em:ke_catalase"
-    },
-    {
-      "@id": "em:assessedBy",
-      "@type": "owl:ObjectProperty",
-      "label": "assessed by"
-    },
-    {
-      "@id": "em:mod_smoking_history",
-      "@type": "em:Modifier",
-      "definition": "Current and past tobacco smoking of the individual.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "11.9"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "4.9"
-      },
-      "label": "smoking history",
-      "modifies": "em:group_biological_response"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/PR_000005061",
+      "@id": "http://purl.obolibrary.org/obo/UBERON_0001913",
       "inOntology": [
-        "EFO",
-        "HPO"
-      ],
-      "rdfs:label": "catalase"
-    },
-    {
-      "@id": "http://purl.bioontology.org/ontology/MESH/D012463",
-      "inOntology": "EVS",
-      "rdfs:label": "Saliva"
-    },
-    {
-      "@id": "em:chem_6ppd_quinone",
-      "@type": "em:Stressor",
-      "altLabel": "6PPD-quinone",
-      "definition": "Transformation product of 6PPD formed by reaction with ozone.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "4.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "5.3"
-      },
-      "exposureVia": "em:route_inhalation",
-      "hiddenLabel": "6PPD quinone",
-      "inWorkflow": "em:wf_anthropogenic",
-      "label": "6PPD-Q",
-      "toxicTo": "em:receptor_coho_salmon"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/ExO_0000057",
-      "inOntology": "GENEPIO",
-      "rdfs:label": "inhalation"
-    },
-    {
-      "@id": "em:contains",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "contains"
-    },
-    {
-      "@id": "em:board",
-      "@type": "owl:DatatypeProperty",
-      "label": "board number"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/PR_000013884",
-      "inOntology": "EFO",
-      "rdfs:label": "AGE"
-    },
-    {
-      "@id": "em:mod_age",
-      "@type": "em:Modifier",
-      "definition": "Age of the individual.",
-      "em:board": 1,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "11.9"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "3.7"
-      },
-      "label": "age",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/PATO_0000011",
-        "http://www.ebi.ac.uk/efo/EFO_0000246",
-        "http://xmlns.com/foaf/0.1/age",
-        "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C25150",
-        "http://purl.obolibrary.org/obo/ExO_0000102",
-        "http://purl.obolibrary.org/obo/PR_000013884",
-        "http://research.ibm.com/ontologies/hspo/Age",
-        "http://semanticscience.org/resource/SIO_001013"
-      ],
-      "modifies": "em:group_biological_response"
-    },
-    {
-      "@id": "em:ao_asthma",
-      "@type": "em:AdverseOutcome",
-      "definition": "Chronic inflammatory disease of the airways.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "10.3"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "5.6"
-      },
-      "label": "asthma",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/HP_0002099",
-        "http://purl.obolibrary.org/obo/MONDO_0004979",
-        "http://purl.obolibrary.org/obo/DOID_2841",
-        "https://bioportal.bioontology.org/ontologies/DREDTO#asthma",
-        "https://saref.etsi.org/saref4ehaw/Asthma"
-      ]
-    },
-    {
-      "@id": "em:samplingMode",
-      "@type": "owl:ObjectProperty",
-      "label": "sampling mode"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/UBERON_0001086",
-      "inOntology": "EVS",
-      "rdfs:label": "Urine"
-    },
-    {
-      "@id": "em:Receptor",
-      "@type": "owl:Class",
-      "definition": "Organism or population group that is exposed.",
-      "em:stageOrder": 6,
-      "label": "receptor organism / population group",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "em:wf_biogenic",
-      "@type": "em:Workflow",
-      "definition": "Biogenic source, alpha-pinene, inhalation, lung, biological response.",
-      "label": "biogenic workflow (alpha-pinene)"
-    },
-    {
-      "@id": "em:ke_emt",
-      "@type": "em:KeyEvent",
-      "altLabel": "EMT",
-      "definition": "Epithelial cells lose their epithelial character and take on a mesenchymal one. Listed under 'outcome' on the board; modelled here as a key event on the way to fibrosis.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "9.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "4.2"
-      },
-      "hiddenLabel": "epithelial to mesenchymal transition",
-      "label": "epithelial-mesenchymal transition",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/GO_0001837",
-        "http://purl.obolibrary.org/obo/MS_1000111"
-      ],
-      "leadsToAOP": "em:ao_fibrosis"
-    },
-    {
-      "@id": "em:usesMethod",
-      "@type": "owl:ObjectProperty",
-      "label": "uses"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/GO_0001837",
-      "inOntology": [
+        "CIDO",
         "CL",
-        "GO",
+        "ECTO",
+        "EFO",
+        "ENVO",
+        "FOODON",
+        "GENEPIO",
+        "HPO",
+        "MAXO",
+        "MONDO",
         "OBA",
+        "OBCS",
+        "OBI",
+        "ONE",
+        "ONS",
+        "UBERON"
+      ],
+      "rdfs:label": "milk"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/UBERON_0002048",
+      "inOntology": [
+        "CIDO",
+        "CL",
+        "DOID",
+        "ECTO",
+        "EFO",
+        "FOODON",
+        "GENEPIO",
+        "HPO",
+        "MAXO",
+        "MONDO",
+        "NBO",
+        "OAE",
+        "OBA",
+        "OBCS",
+        "OBI",
+        "OHMI",
+        "OHPI",
+        "ONE",
+        "OVAE",
         "PATO",
         "PHIPO",
         "RBO",
         "TXPO",
         "UBERON"
       ],
-      "rdfs:label": "EMT"
+      "rdfs:label": "lung"
     },
     {
-      "@id": "em:matrix_blood",
-      "@type": "em:Matrix",
-      "definition": "Blood as biomonitoring matrix.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "7.2"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "12.5"
-      },
-      "label": "blood",
-      "labelMatch": [
-        "http://purl.obolibrary.org/obo/UBERON_0000178",
-        "http://purl.obolibrary.org/obo/ExO_0000063"
-      ]
+      "@id": "http://purl.obolibrary.org/obo/VO_0011339",
+      "inOntology": "VO",
+      "rdfs:label": "Catalase"
     },
     {
-      "@id": "http://purl.obolibrary.org/obo/MONDO_0004979",
+      "@id": "http://purl.org/sig/ont/fma/fma53667",
+      "inOntology": "EVS",
+      "rdfs:label": "Hair"
+    },
+    {
+      "@id": "http://purl.org/sig/ont/fma/fma7195",
+      "inOntology": "ROO",
+      "rdfs:label": "Lung"
+    },
+    {
+      "@id": "http://research.ibm.com/ontologies/hspo/Age",
+      "inOntology": "HSPO",
+      "rdfs:label": "Age"
+    },
+    {
+      "@id": "http://semanticscience.org/resource/SIO_000984",
+      "inOntology": "SIO",
+      "rdfs:label": "genome"
+    },
+    {
+      "@id": "http://semanticscience.org/resource/SIO_001013",
+      "inOntology": "SIO",
+      "rdfs:label": "age"
+    },
+    {
+      "@id": "http://semanticscience.org/resource/SIO_010035",
+      "inOntology": "SIO",
+      "rdfs:label": "gene"
+    },
+    {
+      "@id": "http://sweetontology.net/matrCompound/Hydroxyl",
+      "inOntology": "SWEET",
+      "rdfs:label": "hydroxyl"
+    },
+    {
+      "@id": "http://sweetontology.net/matrElementalMolecule/Ozone",
+      "inOntology": "SWEET",
+      "rdfs:label": "ozone"
+    },
+    {
+      "@id": "http://sweetontology.net/phenBiol/Inhalation",
+      "inOntology": "SWEET",
+      "rdfs:label": "inhalation"
+    },
+    {
+      "@id": "http://sweetontology.net/stateBiological/Anthropogenic",
+      "inOntology": "SWEET",
+      "rdfs:label": "anthropogenic"
+    },
+    {
+      "@id": "http://sweetontology.net/stateBiological/Biogenic",
+      "inOntology": "SWEET",
+      "rdfs:label": "biogenic"
+    },
+    {
+      "@id": "http://www.ebi.ac.uk/efo/EFO_0000246",
       "inOntology": [
         "EFO",
-        "MONDO",
-        "OBA"
+        "GENEPIO"
       ],
-      "rdfs:label": "asthma"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/ExO_0000035",
-      "inOntology": "EXO",
-      "rdfs:label": "genetic background"
-    },
-    {
-      "@id": "em:targets",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "targets"
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/FOODON_03411117",
-      "inOntology": "FOODON",
-      "rdfs:label": "coho salmon"
-    },
-    {
-      "@id": "http://purl.bioontology.org/ontology/MESH/D008895",
-      "inOntology": "EVS",
-      "rdfs:label": "Human Milk"
+      "rdfs:label": "age"
     },
     {
       "@id": "http://www.ebi.ac.uk/efo/EFO_0004420",
@@ -2471,52 +2582,12 @@
       "rdfs:label": "genome"
     },
     {
-      "@id": "em:particle_micro_nanoplastics",
-      "@type": "em:Stressor",
-      "definition": "Plastic particles in the micrometre to nanometre size range.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "1.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "7.9"
-      },
-      "hiddenLabel": [
-        "microplastic",
-        "microplastics",
-        "nanoplastic",
-        "nanoplastics"
+      "@id": "http://www.ebi.ac.uk/efo/EFO_0006890",
+      "inOntology": [
+        "BMONT",
+        "EFO"
       ],
-      "label": "micro-nanoplastics"
-    },
-    {
-      "@id": "em:SamplingMethod",
-      "@type": "owl:Class",
-      "definition": "Sampler or sampling mode used to measure external exposure.",
-      "em:stageOrder": 11,
-      "label": "sampling method",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "em:ProcessGroup",
-      "@type": "owl:Class",
-      "definition": "Group of biological processes, drawn as a bracket on the board.",
-      "em:stageOrder": 7,
-      "label": "process group",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "em:exposureVia",
-      "@type": "owl:ObjectProperty",
-      "em:flow": true,
-      "label": "exposure via"
+      "rdfs:label": "fibrosis"
     },
     {
       "@id": "http://www.ebi.ac.uk/efo/EFO_0009448",
@@ -2524,69 +2595,45 @@
       "rdfs:label": "pulmonary fibrosis"
     },
     {
-      "@id": "em:KeyEvent",
-      "@type": "owl:Class",
-      "definition": "Measurable biological change between exposure and adverse outcome (key event in adverse outcome pathway terms).",
-      "em:stageOrder": 7,
-      "label": "biological process (key event)",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
+      "@id": "http://www.ebi.ac.uk/efo/EFO_0022598",
+      "inOntology": "EFO",
+      "rdfs:label": "breast milk"
     },
     {
-      "@id": "em:mode_active_sampling",
-      "@type": "em:SamplingMethod",
-      "definition": "Sampling in which a pump draws air through the sampler.",
-      "em:board": 1,
-      "em:ink": "purple",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "3.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "9.0"
-      },
-      "label": "active sampling"
+      "@id": "http://www.ebi.ac.uk/efo/EFO_1001905",
+      "inOntology": "EFO",
+      "rdfs:label": "oxidative stress"
     },
     {
-      "@id": "em:role_plasticizer",
-      "@type": "em:ChemicalRole",
-      "definition": "Additive that makes a material more flexible.",
-      "em:board": 2,
-      "em:ink": "orange",
-      "em:x": {
-        "@type": "xsd:decimal",
-        "@value": "1.0"
-      },
-      "em:y": {
-        "@type": "xsd:decimal",
-        "@value": "2.8"
-      },
-      "label": "plasticizer"
-    },
-    {
-      "@id": "em:Modifier",
-      "@type": "owl:Class",
-      "definition": "Characteristic of the individual that changes the biological response to an exposure.",
-      "em:stageOrder": 9,
-      "label": "modifier",
-      "rdfs:subClassOf": {
-        "@id": "em:Node"
-      }
-    },
-    {
-      "@id": "http://purl.obolibrary.org/obo/SO_0000704",
+      "@id": "http://xmlns.com/foaf/0.1/age",
       "inOntology": [
-        "DOID",
-        "EFO",
-        "GENO",
-        "MAXO",
-        "MONDO",
-        "OBA",
-        "RBO"
+        "MO",
+        "OSDU"
       ],
-      "rdfs:label": "gene"
+      "rdfs:label": "age"
+    },
+    {
+      "@id": "http://xmlns.com/foaf/0.1/gender",
+      "inOntology": [
+        "MO",
+        "OSDU"
+      ],
+      "rdfs:label": "gender"
+    },
+    {
+      "@id": "https://bioportal.bioontology.org/ontologies/DREDTO#asthma",
+      "inOntology": "DREDTO",
+      "rdfs:label": "Asthma"
+    },
+    {
+      "@id": "https://purl.exposure.io/vocab/evs/EVS_0000024",
+      "inOntology": "EVS",
+      "rdfs:label": "Inhalation"
+    },
+    {
+      "@id": "https://saref.etsi.org/saref4ehaw/Asthma",
+      "inOntology": "SAREF4EHAW",
+      "rdfs:label": "Asthma"
     }
   ]
 }

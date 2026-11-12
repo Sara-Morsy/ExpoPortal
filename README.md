@@ -15,8 +15,9 @@ edit those by hand.
 - **Locally.** Run `make` in the root of the repository. This needs GNU Make
   4.3 or later and the Debian packages `python3-rdflib` and `librsvg2-bin`.
 - **Ontology terms.** `make match` looks up the node labels on ExpoPortal and
-  writes `exposome_map_mappings.ttl` again. This overwrites edits made by hand
-  in that file, so it only runs when you ask for it. The GitHub Action never
-  runs it.
+  writes the label matches in `exposome_map_mappings.ttl` again. Matches made
+  by hand (`em:curatorMatch`) go above the marker line in that file; that part
+  is always kept. Lines changed by hand below the marker line are lost. The
+  GitHub Action never runs `make match`.
 
 See [blackboard/KG.md](blackboard/KG.md) for how the map is modelled.
