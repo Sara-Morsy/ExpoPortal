@@ -83,6 +83,7 @@ flowchart LR
     ke_inflammation["inflammation"]
     ke_macrophages["macrophages"]
     ke_nfkb["NF-κB"]
+    ke_nrf2["Nrf2 pathway"]
     ke_ros_pathway["ROS pathway"]
     ke_signalling_pathways["signalling pathways"]
     ke_unjamming_transition["unjamming transition"]
@@ -128,7 +129,9 @@ flowchart LR
   ke_macrophages -.->|"leads to (AOP knowledge)"| ke_inflammation
   ke_nfkb -.->|"is a kind of"| ke_signalling_pathways
   ke_nfkb -.->|"leads to (AOP knowledge)"| ke_inflammation
+  ke_nrf2 -.->|"is a kind of"| ke_signalling_pathways
   ke_ros_pathway -.->|"leads to (AOP knowledge)"| ke_nfkb
+  ke_ros_pathway -.->|"leads to (AOP knowledge)"| ke_nrf2
   ke_signalling_pathways -->|"leads to"| ao_fibrosis
   ke_signalling_pathways -->|"leads to"| ke_emt
   ke_signalling_pathways -->|"leads to"| ke_unjamming_transition
@@ -195,6 +198,7 @@ flowchart LR
   class ke_inflammation KeyEvent;
   class ke_macrophages KeyEvent;
   class ke_nfkb KeyEvent;
+  class ke_nrf2 KeyEvent;
   class ke_ros_pathway KeyEvent;
   class ke_signalling_pathways KeyEvent;
   class ke_unjamming_transition KeyEvent;
@@ -253,6 +257,7 @@ flowchart LR
   click ke_inflammation href "https://example.org/exposome-map/ke_inflammation" "Inflammatory response of the lung tissue." _blank
   click ke_macrophages href "https://example.org/exposome-map/ke_macrophages" "Activation and recruitment of macrophages in the lung." _blank
   click ke_nfkb href "https://example.org/exposome-map/ke_nfkb" "Activation of the transcription factor NF-kappaB, a central switch of inflammatory gene expression." _blank
+  click ke_nrf2 href "https://example.org/exposome-map/ke_nrf2" "Activation of the transcription factor Nrf2 (NFE2L2), a main regulator of antioxidant and detoxification gene expression in the response to oxidative stress." _blank
   click ke_ros_pathway href "https://example.org/exposome-map/ke_ros_pathway" "Formation of reactive oxygen species and the cellular response to them." _blank
   click ke_signalling_pathways href "https://example.org/exposome-map/ke_signalling_pathways" "Intracellular signalling cascades that pass the stress signal on to gene expression and cell behaviour." _blank
   click ke_unjamming_transition href "https://example.org/exposome-map/ke_unjamming_transition" "The airway epithelium changes from a solid-like, jammed layer to a fluid-like, migratory one. Listed under 'outcome' on the board." _blank

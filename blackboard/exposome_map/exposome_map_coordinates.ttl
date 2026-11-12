@@ -69,3 +69,4 @@ em:matrix_saliva em:x 9.6 ; em:y 12.5 .
 em:matrix_hair em:x 10.4 ; em:y 12.5 .
 em:method_hrms_nontargeted em:x 6.0 ; em:y 10.9 .
 em:method_hrms_targeted em:x 6.0 ; em:y 12.0 .
+em:ke_nrf2 em:x 8.0 ; em:y 2.1 .   # placed by layout_map.py at y 2.6, moved by hand: it sat on a link

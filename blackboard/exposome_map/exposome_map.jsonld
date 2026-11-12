@@ -691,6 +691,7 @@
         "em:ke_inflammation",
         "em:ke_macrophages",
         "em:ke_nfkb",
+        "em:ke_nrf2",
         "em:ke_ros_pathway",
         "em:ke_signalling_pathways",
         "em:ke_unjamming_transition"
@@ -962,6 +963,33 @@
       "leadsToAOP": "em:ke_inflammation"
     },
     {
+      "@id": "em:ke_nrf2",
+      "@type": "em:KeyEvent",
+      "altLabel": [
+        "Keap1-Nrf2 pathway",
+        "Nrf2"
+      ],
+      "broader": "em:ke_signalling_pathways",
+      "curatorMatch": "http://purl.obolibrary.org/obo/PR_000011170",
+      "definition": "Activation of the transcription factor Nrf2 (NFE2L2), a main regulator of antioxidant and detoxification gene expression in the response to oxidative stress.",
+      "em:board": 1,
+      "em:ink": "orange",
+      "em:x": {
+        "@type": "xsd:decimal",
+        "@value": "8.0"
+      },
+      "em:y": {
+        "@type": "xsd:decimal",
+        "@value": "2.1"
+      },
+      "hiddenLabel": [
+        "NFE2L2",
+        "NRF2",
+        "Nrf2 signalling"
+      ],
+      "label": "Nrf2 pathway"
+    },
+    {
       "@id": "em:ke_ros_pathway",
       "@type": "em:KeyEvent",
       "altLabel": [
@@ -986,7 +1014,10 @@
         "http://purl.obolibrary.org/obo/MP_0003674",
         "http://www.ebi.ac.uk/efo/EFO_1001905"
       ],
-      "leadsToAOP": "em:ke_nfkb"
+      "leadsToAOP": [
+        "em:ke_nfkb",
+        "em:ke_nrf2"
+      ]
     },
     {
       "@id": "em:ke_signalling_pathways",
@@ -2348,6 +2379,10 @@
         "HPO"
       ],
       "rdfs:label": "catalase"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/PR_000011170",
+      "rdfs:label": "nuclear factor erythroid 2-related factor 2"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/PR_000013884",
