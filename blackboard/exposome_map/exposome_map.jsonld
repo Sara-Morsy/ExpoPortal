@@ -24,6 +24,10 @@
       "@id": "em:curatorMatch",
       "@type": "@id"
     },
+    "curatorNoMatch": {
+      "@id": "em:curatorNoMatch",
+      "@type": "@id"
+    },
     "dcterms": "http://purl.org/dc/terms/",
     "definition": {
       "@id": "skos:definition",
@@ -465,6 +469,7 @@
       "@id": "em:chem_6ppd",
       "@type": "em:Stressor",
       "altLabel": "N-(1,3-dimethylbutyl)-N'-phenyl-p-phenylenediamine",
+      "curatorMatch": "http://purl.obolibrary.org/obo/CHEBI_747835",
       "definition": "Tire rubber additive that protects the rubber against ozone and oxidation.",
       "em:board": 2,
       "em:ink": "orange",
@@ -986,6 +991,7 @@
     {
       "@id": "em:ke_signalling_pathways",
       "@type": "em:KeyEvent",
+      "curatorNoMatch": "http://purl.obolibrary.org/obo/GO_0006979",
       "definition": "Intracellular signalling cascades that pass the stress signal on to gene expression and cell behaviour.",
       "em:board": 1,
       "em:ink": "purple",
@@ -1943,6 +1949,10 @@
       "@id": "http://purl.obolibrary.org/obo/CHEBI_36740",
       "inOntology": "ECTO",
       "rdfs:label": "alpha-pinene"
+    },
+    {
+      "@id": "http://purl.obolibrary.org/obo/CHEBI_747835",
+      "rdfs:label": "6PPD"
     },
     {
       "@id": "http://purl.obolibrary.org/obo/CHMO_0002881",
