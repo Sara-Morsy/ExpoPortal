@@ -1009,7 +1009,6 @@
       ],
       "label": "signalling pathways",
       "labelMatch": [
-        "http://purl.obolibrary.org/obo/GO_0007165",
         "http://purl.obolibrary.org/obo/PW_0000003",
         "http://purl.obolibrary.org/obo/TXPO_0000609"
       ],
